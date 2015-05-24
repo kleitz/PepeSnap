@@ -3,6 +3,7 @@ package com.jonathanrobins.pepepix;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 
 public class PictureActivity extends ActionBarActivity {
 
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,9 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
         setContentView(R.layout.activity_picture);
+        //intializes back button and then sets color of back button
+        button = (Button) findViewById(R.id.backButton);
+        button.setTextColor(Color.parseColor("white"));
         //receives picture and sets it to imageview
         Intent intent = getIntent();
         ImageView picture = (ImageView) findViewById(R.id.picture);
@@ -60,7 +66,6 @@ public class PictureActivity extends ActionBarActivity {
     }
 
     public void buttonLogic() {
-        Button button = (Button) findViewById(R.id.backButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -26,7 +28,7 @@ import java.io.IOException;
 public class MainActivity extends ActionBarActivity {
 
     final int REQUEST_IMAGE_CAPTURE = 1;
-
+    int cameraID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,24 +88,39 @@ public class MainActivity extends ActionBarActivity {
                     try {
                         //retrieve bitmap for picture taken
                         Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                        Bitmap rotatedBitmap = null;
                         //get exif data and orientation to determine auto-rotation for picture
                         ExifInterface exif = new ExifInterface("" + file);
                         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                        //rotate picture certain # of degrees depending on orientation
+                        //rotate picture certain # of degrees depending on orientation then sets new matrix
                         Matrix matrix = new Matrix();
                         switch (orientation) {
                             case 3:
                                 matrix.postRotate(180);
+                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
                                 break;
                             case 6:
                                 matrix.postRotate(90);
+                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
                                 break;
                             case 8:
                                 matrix.postRotate(270);
+                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
                                 break;
                         }
-                        //create new bitmap and send to PictureActivity
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                        //check for cameraID of front facing camera and flips accordingly
+                        Camera.CameraInfo info = new Camera.CameraInfo();
+                        android.hardware.Camera.getCameraInfo(cameraID, info);
+                        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+                        {
+                            System.out.println("WHY");
+                            float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
+                            Matrix matrixMirrorY = new Matrix();
+                            matrixMirrorY.setValues(mirrorY);
+                            matrix.postConcat(matrixMirrorY);
+                            rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                        }
+
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
                         //assigns to global bitmap variable then goes to intent
                         GlobalClass.img = rotatedBitmap;
