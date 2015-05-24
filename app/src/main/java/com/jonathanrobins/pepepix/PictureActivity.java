@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,12 +80,29 @@ public class PictureActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    //back button override
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            finish();
+            Intent i = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(i);
+            this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 
     public void buttonLogic() {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                backButton.setBackgroundResource(R.drawable.rounded_button_pressed);
                 finish();
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+                PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
@@ -96,6 +114,7 @@ public class PictureActivity extends ActionBarActivity {
                 //not clicked yet
                 if (clicked == false) {
                     backButton.setAlpha(0.0f);
+                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon_pressed);
                     clicked = true;
                     //moves scrollview in view
                     ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
@@ -107,6 +126,7 @@ public class PictureActivity extends ActionBarActivity {
                 //clicked already
                 else{
                     backButton.setAlpha(100.0f);
+                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
                     ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
@@ -123,6 +143,7 @@ public class PictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (clicked == true){
                     backButton.setAlpha(100.0f);
+                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
                     ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
