@@ -76,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
                 final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
                 startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
             }
         });
     }

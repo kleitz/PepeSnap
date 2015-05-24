@@ -12,6 +12,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ public class PictureActivity extends ActionBarActivity {
     boolean clicked = false;
     int width;
     int height;
+    ScrollView scrollview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,8 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
         setContentView(R.layout.activity_picture);
         //intializes back backButton and then sets color of back backButton
         backButton = (Button) findViewById(R.id.backButton);
@@ -49,6 +53,7 @@ public class PictureActivity extends ActionBarActivity {
         Bitmap bitmap = GlobalClass.img;
         picture.setImageBitmap(bitmap);
 
+        scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -114,14 +119,25 @@ public class PictureActivity extends ActionBarActivity {
                 //not clicked yet
                 if (clicked == false) {
                     backButton.setAlpha(0.0f);
-                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon_pressed);
+                    pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
                     clicked = true;
                     //moves scrollview in view
+                   /*
                     ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
                     RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
                     layouts.leftMargin = 0;
                     layouts.rightMargin = width/2 - ((width/2)/2);
-                    scrollview.setLayoutParams(layouts);
+                    scrollview.setLayoutParams(layouts);*/
+                    Animation a = new Animation() {
+                        @Override
+                        protected void applyTransformation(float interpolatedTime, Transformation t) {
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            layouts.topMargin = (int) (-125 * interpolatedTime);
+                            scrollview.setLayoutParams(layouts);
+                        }
+                    };
+                    a.setDuration(700); // in ms
+                    scrollview.startAnimation(a);
                 }
                 //clicked already
                 else{
@@ -129,11 +145,18 @@ public class PictureActivity extends ActionBarActivity {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
-                    ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
-                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
-                    layouts.leftMargin = -width;
-                    layouts.rightMargin = width;
-                    scrollview.setLayoutParams(layouts);
+                    Animation a = new Animation() {
+                        @Override
+                        protected void applyTransformation(float interpolatedTime, Transformation t) {
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
+                            //layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
+                            layouts.topMargin = (int)(height * 2 * interpolatedTime);
+                            scrollview.setLayoutParams(layouts);
+                        }
+                    };
+                    a.setDuration(700); // in ms
+                    scrollview.startAnimation(a);
                 }
             }
         });
@@ -146,11 +169,18 @@ public class PictureActivity extends ActionBarActivity {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
-                    ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
-                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
-                    layouts.leftMargin = -width;
-                    layouts.rightMargin = width;
-                    scrollview.setLayoutParams(layouts);
+                    Animation a = new Animation() {
+                        @Override
+                        protected void applyTransformation(float interpolatedTime, Transformation t) {
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
+                            // layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
+                            layouts.topMargin = (int)(height * 2 * interpolatedTime);
+                            scrollview.setLayoutParams(layouts);
+                        }
+                    };
+                    a.setDuration(700); // in ms
+                    scrollview.startAnimation(a);
                 }
             }
         });
