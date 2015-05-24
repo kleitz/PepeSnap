@@ -3,19 +3,29 @@ package com.jonathanrobins.pepepix;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 
 public class PictureActivity extends ActionBarActivity {
 
     Button backButton;
     Button pepeButton;
+    ImageView picture;
+    boolean clicked = false;
+    int width;
+    int height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +44,15 @@ public class PictureActivity extends ActionBarActivity {
         backButton.setTextColor(Color.parseColor("white"));
         //receives picture and sets it to imageview
         Intent intent = getIntent();
-        ImageView picture = (ImageView) findViewById(R.id.picture);
+        picture = (ImageView) findViewById(R.id.picture);
         Bitmap bitmap = GlobalClass.img;
         picture.setImageBitmap(bitmap);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x;
+        height = size.y;
 
         //initializes on-click methods for various buttons
         buttonLogic();
@@ -71,10 +87,50 @@ public class PictureActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+
         pepeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("PEPES!!");
+
+                //not clicked yet
+                if (clicked == false) {
+                    backButton.setAlpha(0.0f);
+                    clicked = true;
+                    //moves scrollview in view
+                    ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
+                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                    layouts.leftMargin = 0;
+                    layouts.rightMargin = width/2 - ((width/2)/2);
+                    scrollview.setLayoutParams(layouts);
+                }
+                //clicked already
+                else{
+                    backButton.setAlpha(100.0f);
+                    clicked = false;
+                    //moves scrollview out of view
+                    ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
+                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                    layouts.leftMargin = -width;
+                    layouts.rightMargin = width;
+                    scrollview.setLayoutParams(layouts);
+                }
+            }
+        });
+
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clicked == true){
+                    backButton.setAlpha(100.0f);
+                    clicked = false;
+                    //moves scrollview out of view
+                    ScrollView scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
+                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                    layouts.leftMargin = -width;
+                    layouts.rightMargin = width;
+                    scrollview.setLayoutParams(layouts);
+                }
             }
         });
     }
