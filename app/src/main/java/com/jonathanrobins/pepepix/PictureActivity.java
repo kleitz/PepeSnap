@@ -2,10 +2,7 @@ package com.jonathanrobins.pepepix;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,8 +14,8 @@ import android.widget.ImageView;
 
 public class PictureActivity extends ActionBarActivity {
 
-    Button button;
-
+    Button backButton;
+    Button pepeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +28,17 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
         setContentView(R.layout.activity_picture);
-        //intializes back button and then sets color of back button
-        button = (Button) findViewById(R.id.backButton);
-        button.setTextColor(Color.parseColor("white"));
+        //intializes back backButton and then sets color of back backButton
+        backButton = (Button) findViewById(R.id.backButton);
+        pepeButton = (Button) findViewById(R.id.pepeButton);
+        backButton.setTextColor(Color.parseColor("white"));
         //receives picture and sets it to imageview
         Intent intent = getIntent();
         ImageView picture = (ImageView) findViewById(R.id.picture);
         Bitmap bitmap = GlobalClass.img;
         picture.setImageBitmap(bitmap);
 
+        //initializes on-click methods for various buttons
         buttonLogic();
     }
 
@@ -53,7 +52,7 @@ public class PictureActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Home/Up backButton, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -66,10 +65,16 @@ public class PictureActivity extends ActionBarActivity {
     }
 
     public void buttonLogic() {
-        button.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        pepeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("PEPES!!");
             }
         });
     }
