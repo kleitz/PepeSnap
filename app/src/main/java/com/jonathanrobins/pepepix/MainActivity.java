@@ -125,8 +125,8 @@ public class MainActivity extends ActionBarActivity {
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
                         //assigns to global bitmap variable then goes to intent
                         GlobalClass.img = rotatedBitmap;
-                        finish();
                         startActivity(i);
+                        finish();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

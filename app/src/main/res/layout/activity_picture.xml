@@ -1,14 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jonathanrobins.pepepix.PictureActivity">
+    tools:context="com.jonathanrobins.pepepix.PictureActivity"
+    android:id="@+id/mainRelativeLayout">
 
     <ImageView android:id="@+id/picture"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:background="@color/accent_material_dark"/>
+        android:background="#ffffffff"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -27,5 +28,64 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
+        android:layout_width="62dp"
+        android:layout_height="74dp"
+        android:id="@+id/pepeButton"
+        android:background="@drawable/pepepicturesicon"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:animateLayoutChanges="true"
+        android:id="@+id/pictureScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#657f7777"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="800dp"
+        android:layout_weight = "0.55"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#5ea29999"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/pepeButton"
+            android:layout_toStartOf="@+id/pepeButton">
+
+            <ImageView
+                android:id="@+id/pic0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="94dp"
+                android:src="@drawable/pic0" />
+            <ImageView
+                android:id="@+id/pic1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/pic0"
+                android:layout_below="@+id/pic0"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/pic1" />
+            <ImageView
+                android:id="@+id/pic2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/pic1"
+                android:layout_below="@+id/pic1"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/pic2" />
+        </RelativeLayout>
+    </ScrollView >
 
 </RelativeLayout>

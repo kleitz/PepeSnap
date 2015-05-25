@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,9 @@ public class PictureActivity extends ActionBarActivity {
     boolean clicked = false;
     int width;
     int height;
-    ScrollView scrollview;
+    ScrollView scrollView;
+    RelativeLayout relativeLayout;
+    RelativeLayout mainRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +50,22 @@ public class PictureActivity extends ActionBarActivity {
         backButton = (Button) findViewById(R.id.backButton);
         pepeButton = (Button) findViewById(R.id.pepeButton);
         backButton.setTextColor(Color.parseColor("white"));
+        //dank pepes and on-click setting
+        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2};
+        for(int i = 0; i < pepes.length; i++){
+            ImageView pepe = (ImageView) findViewById(pepes[i]);
+            pepe.setTag(i);
+            pepe.setOnClickListener(pictureStamp);
+        }
         //receives picture and sets it to imageview
         Intent intent = getIntent();
         picture = (ImageView) findViewById(R.id.picture);
         Bitmap bitmap = GlobalClass.img;
         picture.setImageBitmap(bitmap);
 
-        scrollview = (ScrollView) findViewById(R.id.pictureScrollView);
+        scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        mainRelativeLayout = (RelativeLayout) findViewById(R.id.mainRelativeLayout);
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -131,13 +143,13 @@ public class PictureActivity extends ActionBarActivity {
                     Animation a = new Animation() {
                         @Override
                         protected void applyTransformation(float interpolatedTime, Transformation t) {
-                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
                             layouts.topMargin = (int) (-125 * interpolatedTime);
-                            scrollview.setLayoutParams(layouts);
+                            scrollView.setLayoutParams(layouts);
                         }
                     };
                     a.setDuration(700); // in ms
-                    scrollview.startAnimation(a);
+                    scrollView.startAnimation(a);
                 }
                 //clicked already
                 else{
@@ -148,15 +160,15 @@ public class PictureActivity extends ActionBarActivity {
                     Animation a = new Animation() {
                         @Override
                         protected void applyTransformation(float interpolatedTime, Transformation t) {
-                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
                             //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
                             //layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
                             layouts.topMargin = (int)(height * 2 * interpolatedTime);
-                            scrollview.setLayoutParams(layouts);
+                            scrollView.setLayoutParams(layouts);
                         }
                     };
                     a.setDuration(700); // in ms
-                    scrollview.startAnimation(a);
+                    scrollView.startAnimation(a);
                 }
             }
         });
@@ -172,17 +184,57 @@ public class PictureActivity extends ActionBarActivity {
                     Animation a = new Animation() {
                         @Override
                         protected void applyTransformation(float interpolatedTime, Transformation t) {
-                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollview.getLayoutParams();
+                            RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
                             //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
                             // layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
                             layouts.topMargin = (int)(height * 2 * interpolatedTime);
-                            scrollview.setLayoutParams(layouts);
+                            scrollView.setLayoutParams(layouts);
                         }
                     };
                     a.setDuration(700); // in ms
-                    scrollview.startAnimation(a);
+                    scrollView.startAnimation(a);
                 }
             }
         });
     }
+    public View.OnClickListener pictureStamp = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //get tag number and resID to find correct picture for display
+            System.out.println("Tag is: " + (int) v.getTag());
+            String stringVar = "pic" + v.getTag();
+            int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
+            System.out.println(resID);
+            //create image based on resID and set to main RelativeLayout
+            ImageView clickedPepe = new ImageView(PictureActivity.this);
+            clickedPepe.setImageResource(resID);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+            layoutParams.gravity= Gravity.CENTER;
+            clickedPepe.setLayoutParams(layoutParams);
+            mainRelativeLayout.addView(clickedPepe);
+            setContentView(mainRelativeLayout);
+            //bringing misc views in front of pictures because pictures are thrown over them
+            scrollView.bringToFront();
+            backButton.bringToFront();
+            pepeButton.bringToFront();
+
+            //misc other scrollview-away stuff
+            backButton.setAlpha(100.0f);
+            pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+            clicked = false;
+            //moves scrollview out of view
+            Animation a = new Animation() {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
+                    //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
+                    // layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
+                    layouts.topMargin = (int)(height * 2 * interpolatedTime);
+                    scrollView.setLayoutParams(layouts);
+                }
+            };
+            a.setDuration(700); // in ms
+            scrollView.startAnimation(a);
+        }
+    };
 }
