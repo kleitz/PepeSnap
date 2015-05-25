@@ -208,8 +208,8 @@ public class PictureActivity extends ActionBarActivity {
             //create image based on resID and set to main RelativeLayout
             ImageView clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-            layoutParams.gravity= Gravity.CENTER;
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(387, 412);
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             clickedPepe.setLayoutParams(layoutParams);
             mainRelativeLayout.addView(clickedPepe);
             setContentView(mainRelativeLayout);
