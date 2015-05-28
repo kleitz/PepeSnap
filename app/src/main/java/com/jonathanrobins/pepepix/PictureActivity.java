@@ -50,7 +50,7 @@ public class PictureActivity extends ActionBarActivity {
         pepeButton = (Button) findViewById(R.id.pepeButton);
         backButton.setTextColor(Color.parseColor("white"));
         //dank pepes and on-click setting
-        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2};
+        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
         for (int i = 0; i < pepes.length; i++) {
             ImageView pepe = (ImageView) findViewById(pepes[i]);
             pepe.setTag(i);

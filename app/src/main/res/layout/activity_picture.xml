@@ -85,6 +85,14 @@
                 android:layout_below="@+id/pic1"
                 android:layout_marginTop="14dp"
                 android:src="@drawable/pic2" />
+            <ImageView
+                android:id="@+id/pic3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/pic2"
+                android:layout_below="@+id/pic2"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/pic3" />
         </RelativeLayout>
     </ScrollView >
 
