@@ -24,7 +24,6 @@ import android.widget.ScrollView;
 public class PictureActivity extends ActionBarActivity {
     Button backButton;
     Button pepeButton;
-    Button undoButton;
     ImageView picture;
     boolean clicked = false;
     int width;
@@ -51,11 +50,9 @@ public class PictureActivity extends ActionBarActivity {
         //intializes back backButton and then sets color of back backButton
         backButton = (Button) findViewById(R.id.backButton);
         pepeButton = (Button) findViewById(R.id.pepeButton);
-        undoButton = (Button) findViewById(R.id.undoButton);
         backButton.setTextColor(Color.parseColor("white"));
-        undoButton.setTextColor(Color.parseColor("white"));
         //dank pepes and on-click setting
-        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
+        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2};
         for (int i = 0; i < pepes.length; i++) {
             ImageView pepe = (ImageView) findViewById(pepes[i]);
             pepe.setTag(i);
@@ -128,13 +125,6 @@ public class PictureActivity extends ActionBarActivity {
             }
         });
 
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
         pepeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +133,6 @@ public class PictureActivity extends ActionBarActivity {
                 //not clicked yet
                 if (clicked == false) {
                     backButton.setAlpha(0.0f);
-                    undoButton.setAlpha(0.0f);
                     pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
                     clicked = true;
                     //moves scrollview in view
@@ -167,7 +156,6 @@ public class PictureActivity extends ActionBarActivity {
                 //clicked already
                 else {
                     backButton.setAlpha(100.0f);
-                    undoButton.setAlpha(100.0f);
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
@@ -192,7 +180,6 @@ public class PictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (clicked == true) {
                     backButton.setAlpha(100.0f);
-                    undoButton.setAlpha(100.0f);
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
@@ -278,10 +265,8 @@ public class PictureActivity extends ActionBarActivity {
             scrollView.bringToFront();
             backButton.bringToFront();
             pepeButton.bringToFront();
-            undoButton.bringToFront();
             //move other picture_activity stuff away
             backButton.setAlpha(100.0f);
-            undoButton.setAlpha(100.0f);
             pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
             clicked = false;
             //moves scrollview out of view
