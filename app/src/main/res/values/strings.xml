@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">Pepe Pix</string>
-    <string name="title_string">Pepe Pix</string>
+    <string name="app_name">PepeSnap</string>
+    <string name="title_string">PepeSnap</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity2">Activity2</string>
     <string name="title_activity_picture">PictureActivity</string>
-
     <string name="hello_world">Hello world!</string>
 </resources>
