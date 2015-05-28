@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.FloatMath;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -33,7 +32,6 @@ public class PictureActivity extends ActionBarActivity {
     ViewGroup mainRelativeLayout;
     int windowwidth;
     int windowheight;
-    ImageView clickedPepe = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,7 @@ public class PictureActivity extends ActionBarActivity {
         for (int i = 0; i < pepes.length; i++) {
             ImageView pepe = (ImageView) findViewById(pepes[i]);
             pepe.setTag(i);
-            pepe.setOnClickListener(pictureEditing);
+            pepe.setOnClickListener(pictureMovement);
         }
         //receives picture and sets it to imageview
         Intent intent = getIntent();
@@ -67,12 +65,13 @@ public class PictureActivity extends ActionBarActivity {
         scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
         height = size.y;
+        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
+        windowheight = getWindowManager().getDefaultDisplay().getHeight();
         //initializes on-click methods for various buttons
         buttonLogic();
     }
@@ -200,21 +199,16 @@ public class PictureActivity extends ActionBarActivity {
         });
     }
 
-    public View.OnClickListener pictureEditing = new View.OnClickListener() {
+    public View.OnClickListener pictureMovement = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             //get tag number and resID to find correct picture for display
             System.out.println("Tag is: " + (int) v.getTag());
             String stringVar = "pic" + v.getTag();
             int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
-            //create image based on resID and set to main RelativeLayout after layout  customization
-            clickedPepe = new ImageView(PictureActivity.this);
+            //create image based on resID and set to main RelativeLayout
+            final ImageView clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
-            //sets image to main view
-            mainRelativeLayout.addView(clickedPepe);
-           /// layoutParams.leftMargin = width/2 - (width/2/2);
-           /// layoutParams.topMargin = height/2 - (width/2/2);
-           /// clickedPepe.setLayoutParams(layoutParams);
             //sets onTouch listener for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -222,28 +216,14 @@ public class PictureActivity extends ActionBarActivity {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                           break;
-                        case MotionEvent.ACTION_UP:
-                            break;
-                        case MotionEvent.ACTION_POINTER_DOWN:
-                            break;
-                        case MotionEvent.ACTION_POINTER_UP:
                             break;
                         case MotionEvent.ACTION_MOVE:
-                            if(event.getPointerCount() == 1) {
-                                int x = (int) event.getRawX();
-                                int y = (int) event.getRawY();
-                                layoutParams.leftMargin = x - 400;
-                                layoutParams.topMargin = y - 400;
-                                clickedPepe.setLayoutParams(layoutParams);
-                            }
-                            if(event.getPointerCount() == 2){
-                                float x = event.getX(0) - event.getX(1);
-                                float y = event.getY(0) - event.getY(1);
-                                float z = FloatMath.sqrt(x * x + y * y);
-                                return true;
-                            }
-                                break;
+                            int x = (int) event.getRawX();
+                            int y = (int) event.getRawY();
+                            layoutParams.leftMargin = x - 400;
+                            layoutParams.topMargin = y - 400;
+                            clickedPepe.setLayoutParams(layoutParams);
+                            break;
                         default:
                             break;
                     }
@@ -260,6 +240,9 @@ public class PictureActivity extends ActionBarActivity {
             //layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             //clickedPepe.setLayoutParams(layoutParams);
 
+            //sets image to main view
+            mainRelativeLayout.addView(clickedPepe);
+            clickedPepe.setOnClickListener(pictureClick);
             //setContentView(mainRelativeLayout);
             //bringing misc views in front of pictures because pictures are thrown over them
             scrollView.bringToFront();
@@ -284,5 +267,13 @@ public class PictureActivity extends ActionBarActivity {
             scrollView.startAnimation(a);
         }
     };
+
+    public View.OnClickListener pictureClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            System.out.println("It's ALIIIIIVE!!!");
+        }
+    };
+
 
 }
