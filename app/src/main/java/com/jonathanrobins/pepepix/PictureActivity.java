@@ -209,21 +209,31 @@ public class PictureActivity extends ActionBarActivity {
             //create image based on resID and set to main RelativeLayout
             final ImageView clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
+            //sets image to main view and sets margins for where to appear
+            mainRelativeLayout.addView(clickedPepe);
+            final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
+            layoutParams.topMargin = (int)(height - height/1.5);
+            layoutParams.leftMargin = (int)(width - width/1.5);
+            clickedPepe.setLayoutParams(layoutParams);
             //sets onTouch listener for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             break;
                         case MotionEvent.ACTION_MOVE:
-                            int x = (int) event.getRawX();
-                            int y = (int) event.getRawY();
-                            layoutParams.leftMargin = x - 400;
-                            layoutParams.topMargin = y - 400;
-                            clickedPepe.setLayoutParams(layoutParams);
-                            break;
+                            if(event.getPointerCount() == 1) {
+                                int x = (int) event.getRawX();
+                                int y = (int) event.getRawY();
+                                layoutParams.leftMargin = x - 400;
+                                layoutParams.topMargin = y - 400;
+                                clickedPepe.setLayoutParams(layoutParams);
+                                break;
+                            }
+                            if (event.getPointerCount() == 2) {
+
+                            }
                         default:
                             break;
                     }
@@ -240,8 +250,7 @@ public class PictureActivity extends ActionBarActivity {
             //layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             //clickedPepe.setLayoutParams(layoutParams);
 
-            //sets image to main view
-            mainRelativeLayout.addView(clickedPepe);
+
             clickedPepe.setOnClickListener(pictureClick);
             //setContentView(mainRelativeLayout);
             //bringing misc views in front of pictures because pictures are thrown over them
