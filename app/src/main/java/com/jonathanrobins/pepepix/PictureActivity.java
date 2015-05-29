@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,6 +24,8 @@ import android.widget.ScrollView;
 public class PictureActivity extends ActionBarActivity {
     Button backButton;
     Button pepeButton;
+    Button decreaseButton;
+    Button increaseButton;
     ImageView picture;
     boolean clicked = false;
     int width;
@@ -32,6 +35,9 @@ public class PictureActivity extends ActionBarActivity {
     ViewGroup mainRelativeLayout;
     int windowwidth;
     int windowheight;
+    ImageView clickedPepe = null;
+    View currentlySelectedView;
+    RelativeLayout.LayoutParams currentlySelectedParams;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +54,11 @@ public class PictureActivity extends ActionBarActivity {
         //intializes back backButton and then sets color of back backButton
         backButton = (Button) findViewById(R.id.backButton);
         pepeButton = (Button) findViewById(R.id.pepeButton);
+        decreaseButton = (Button) findViewById(R.id.decreaseButton);
+        increaseButton = (Button) findViewById(R.id.increaseButton);
         backButton.setTextColor(Color.parseColor("white"));
+        increaseButton.setTextColor(Color.parseColor("white"));
+        decreaseButton.setTextColor(Color.parseColor("white"));
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
         for (int i = 0; i < pepes.length; i++) {
@@ -197,6 +207,15 @@ public class PictureActivity extends ActionBarActivity {
                 }
             }
         });
+
+        decreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
+                params.width = params.width + 20;
+                clickedPepe.setLayoutParams(params);
+            }
+        });
     }
 
     public View.OnClickListener pictureMovement = new View.OnClickListener() {
@@ -207,7 +226,7 @@ public class PictureActivity extends ActionBarActivity {
             String stringVar = "pic" + v.getTag();
             int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
             //create image based on resID and set to main RelativeLayout
-            final ImageView clickedPepe = new ImageView(PictureActivity.this);
+            clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
             //sets image to main view and sets margins for where to appear
             mainRelativeLayout.addView(clickedPepe);
@@ -216,11 +235,13 @@ public class PictureActivity extends ActionBarActivity {
             layoutParams.leftMargin = (int)(width - width/1.5);
             clickedPepe.setLayoutParams(layoutParams);
             //sets onTouch listener for dragging/zooming
+
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
+                            currentlySelectedView = v;
                             break;
                         case MotionEvent.ACTION_MOVE:
                             if(event.getPointerCount() == 1) {
@@ -228,11 +249,19 @@ public class PictureActivity extends ActionBarActivity {
                                 int y = (int) event.getRawY();
                                 layoutParams.leftMargin = x - 400;
                                 layoutParams.topMargin = y - 400;
-                                clickedPepe.setLayoutParams(layoutParams);
+                                //MAYBE SET params.width FOR IMAGE FIRST THEN PERFORM ACTIONS ON ITS SIZE SINCE IT STARTS AT 0 FOR SOME REASON
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
+                                params.width = params.width + 20;
+                                clickedPepe.setLayoutParams(params);
                                 break;
                             }
                             if (event.getPointerCount() == 2) {
-
+                                float x1 = event.getX(0);
+                                float y1 = event.getY(0);
+                                float x2 = event.getX(1);
+                                float y2 = event.getY(1);
+                                float distance = FloatMath.sqrt((x1 * x2) + (y1 * y2));
+                                break;
                             }
                         default:
                             break;

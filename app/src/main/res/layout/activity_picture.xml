@@ -39,6 +39,33 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/decreaseButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="24dp"
+        android:layout_alignTop="@+id/pepeButton"
+        android:layout_alignRight="@+id/pictureScrollView"
+        android:layout_alignEnd="@+id/pictureScrollView"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/increaseButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="24dp"
+        android:layout_marginRight="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_alignTop="@+id/decreaseButton"
+        android:layout_toLeftOf="@+id/decreaseButton"
+        android:layout_toStartOf="@+id/decreaseButton" />
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:animateLayoutChanges="true"
         android:id="@+id/pictureScrollView"
@@ -95,5 +122,4 @@
                 android:src="@drawable/pic3" />
         </RelativeLayout>
     </ScrollView >
-
 </RelativeLayout>
