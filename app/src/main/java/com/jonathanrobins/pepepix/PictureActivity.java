@@ -22,22 +22,24 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 public class PictureActivity extends ActionBarActivity {
-    Button backButton;
-    Button pepeButton;
-    Button decreaseButton;
-    Button increaseButton;
-    ImageView picture;
-    boolean clicked = false;
-    int width;
-    int height;
-    ScrollView scrollView;
-    RelativeLayout relativeLayout;
-    ViewGroup mainRelativeLayout;
-    int windowwidth;
-    int windowheight;
-    ImageView clickedPepe = null;
-    View currentlySelectedView;
-    RelativeLayout.LayoutParams currentlySelectedParams;
+    private Button backButton;
+    private Button pepeButton;
+    private Button decreaseButton;
+    private Button increaseButton;
+    private Button deleteButton;
+    private Button doneButton;
+    private ImageView picture;
+    private boolean clicked = false;
+    private int width;
+    private int height;
+    private ScrollView scrollView;
+    private RelativeLayout relativeLayout;
+    private ViewGroup mainRelativeLayout;
+    private int windowwidth;
+    private int windowheight;
+    private View currentlySelectedView;
+    private RelativeLayout.LayoutParams currentlySelectedParams;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +53,17 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_picture);
-        //intializes back backButton and then sets color of back backButton
+        //intializes buttons and sets colors
         backButton = (Button) findViewById(R.id.backButton);
         pepeButton = (Button) findViewById(R.id.pepeButton);
         decreaseButton = (Button) findViewById(R.id.decreaseButton);
         increaseButton = (Button) findViewById(R.id.increaseButton);
+        deleteButton = (Button) findViewById(R.id.deleteButton);
+        deleteButton = (Button) findViewById(R.id.doneButton);
         backButton.setTextColor(Color.parseColor("white"));
         increaseButton.setTextColor(Color.parseColor("white"));
         decreaseButton.setTextColor(Color.parseColor("white"));
+        deleteButton.setTextColor(Color.parseColor("red"));
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
         for (int i = 0; i < pepes.length; i++) {
@@ -72,18 +77,19 @@ public class PictureActivity extends ActionBarActivity {
         Bitmap bitmap = GlobalClass.img;
         picture.setImageBitmap(bitmap);
 
+        //various views and layouts
         scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
+
+        //width and height of screen
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
         height = size.y;
-        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
-        windowheight = getWindowManager().getDefaultDisplay().getHeight();
         //initializes on-click methods for various buttons
-        buttonLogic();
+        miscButtonLogic();
     }
 
     @Override
@@ -118,11 +124,11 @@ public class PictureActivity extends ActionBarActivity {
             this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
-    public void buttonLogic() {
+    public void miscButtonLogic() {
+        //back button listener
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +140,7 @@ public class PictureActivity extends ActionBarActivity {
             }
         });
 
-
+        //pepes button listener
         pepeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +190,7 @@ public class PictureActivity extends ActionBarActivity {
             }
         });
 
+        //main background picture listener
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,15 +214,6 @@ public class PictureActivity extends ActionBarActivity {
                 }
             }
         });
-
-        decreaseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
-                params.width = params.width + 20;
-                clickedPepe.setLayoutParams(params);
-            }
-        });
     }
 
     public View.OnClickListener pictureMovement = new View.OnClickListener() {
@@ -226,33 +224,46 @@ public class PictureActivity extends ActionBarActivity {
             String stringVar = "pic" + v.getTag();
             int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
             //create image based on resID and set to main RelativeLayout
-            clickedPepe = new ImageView(PictureActivity.this);
+            final ImageView clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
             //sets image to main view and sets margins for where to appear
             mainRelativeLayout.addView(clickedPepe);
             final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
-            layoutParams.topMargin = (int)(height - height/1.5);
-            layoutParams.leftMargin = (int)(width - width/1.5);
+            layoutParams.topMargin = (int) (height - height / 1.5);
+            layoutParams.leftMargin = (int) (width - width / 1.5);
             clickedPepe.setLayoutParams(layoutParams);
-            //sets onTouch listener for dragging/zooming
-
+            //sets onTouch listeners for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            currentlySelectedView = v;
+                            //sets methods for zoom buttons when a certain pepe is touched
+                            decreaseButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    layoutParams.width = layoutParams.width - 20;
+                                    clickedPepe.setLayoutParams(layoutParams);
+                                }
+                            });
+                            increaseButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    layoutParams.width = layoutParams.width + 20;
+                                    clickedPepe.setLayoutParams(layoutParams);
+                                }
+                            });
                             break;
                         case MotionEvent.ACTION_MOVE:
-                            if(event.getPointerCount() == 1) {
+                            //for dragging and moving pepes
+                            if (event.getPointerCount() == 1) {
                                 int x = (int) event.getRawX();
                                 int y = (int) event.getRawY();
                                 layoutParams.leftMargin = x - 400;
                                 layoutParams.topMargin = y - 400;
                                 //MAYBE SET params.width FOR IMAGE FIRST THEN PERFORM ACTIONS ON ITS SIZE SINCE IT STARTS AT 0 FOR SOME REASON
-                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
-                                params.width = params.width + 20;
-                                clickedPepe.setLayoutParams(params);
+                                //layoutParams.width =  layoutParams.width + 20;
+                                clickedPepe.setLayoutParams(layoutParams);
                                 break;
                             }
                             if (event.getPointerCount() == 2) {
@@ -270,17 +281,6 @@ public class PictureActivity extends ActionBarActivity {
                 }
             });
 
-            /*TouchImageView clickedPepe = new TouchImageView(PictureActivity.this);
-            clickedPepe.setMinZoom(0.25f);
-            clickedPepe.setMaxZoom(4.0f);
-            clickedPepe.setZoom(.85f);*/
-
-            //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
-            //layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-            //clickedPepe.setLayoutParams(layoutParams);
-
-
-            clickedPepe.setOnClickListener(pictureClick);
             //setContentView(mainRelativeLayout);
             //bringing misc views in front of pictures because pictures are thrown over them
             scrollView.bringToFront();
@@ -305,13 +305,4 @@ public class PictureActivity extends ActionBarActivity {
             scrollView.startAnimation(a);
         }
     };
-
-    public View.OnClickListener pictureClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            System.out.println("It's ALIIIIIVE!!!");
-        }
-    };
-
-
 }

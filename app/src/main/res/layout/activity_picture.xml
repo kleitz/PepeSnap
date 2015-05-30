@@ -46,11 +46,12 @@
         android:text="-"
         android:id="@+id/decreaseButton"
         android:background="@drawable/rounded_button"
-        android:textSize="24dp"
-        android:layout_alignTop="@+id/pepeButton"
-        android:layout_alignRight="@+id/pictureScrollView"
-        android:layout_alignEnd="@+id/pictureScrollView"
-        android:layout_marginTop="12dp" />
+        android:textSize="40dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_alignTop="@+id/increaseButton"
+        android:layout_toRightOf="@+id/increaseButton"
+        android:layout_toEndOf="@+id/increaseButton" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -59,12 +60,51 @@
         android:text="+"
         android:id="@+id/increaseButton"
         android:background="@drawable/rounded_button"
-        android:textSize="24dp"
-        android:layout_marginRight="34dp"
-        android:layout_marginEnd="34dp"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/pepeButton"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@+id/deleteButton"
+        android:layout_toEndOf="@+id/deleteButton"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:id="@+id/deleteButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="23dp"
+        android:layout_alignTop="@+id/pepeButton"
+        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/backButton"
+        android:layout_alignStart="@+id/backButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/doneButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="40dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_alignTop="@+id/decreaseButton"
-        android:layout_toLeftOf="@+id/decreaseButton"
-        android:layout_toStartOf="@+id/decreaseButton" />
+        android:layout_toLeftOf="@+id/pepeButton"
+        android:layout_toStartOf="@+id/pepeButton" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/imageView"
+        android:background="@drawable/checkmark"
+        android:layout_marginBottom="8dp"
+        android:layout_alignBottom="@+id/doneButton"
+        android:layout_alignRight="@+id/doneButton"
+        android:layout_alignEnd="@+id/doneButton"
+        android:layout_marginRight="7dp"
+        android:layout_marginEnd="7dp" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:animateLayoutChanges="true"
