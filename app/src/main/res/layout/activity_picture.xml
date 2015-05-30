@@ -33,40 +33,9 @@
         android:id="@+id/pepeButton"
         android:background="@drawable/pepepicturesicon"
         android:layout_marginBottom="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginEnd="25dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/decreaseButton"
-        android:background="@drawable/rounded_button"
-        android:textSize="40dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:layout_alignTop="@+id/increaseButton"
-        android:layout_toRightOf="@+id/increaseButton"
-        android:layout_toEndOf="@+id/increaseButton" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/increaseButton"
-        android:background="@drawable/rounded_button"
-        android:textSize="30dp"
-        android:layout_alignTop="@+id/pepeButton"
-        android:layout_marginTop="12dp"
-        android:layout_toRightOf="@+id/deleteButton"
-        android:layout_toEndOf="@+id/deleteButton"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp" />
+        android:layout_toRightOf="@+id/doneButton"
+        android:layout_marginLeft="20dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -78,9 +47,33 @@
         android:textSize="23dp"
         android:layout_alignTop="@+id/pepeButton"
         android:layout_marginTop="12dp"
-        android:layout_alignLeft="@+id/backButton"
-        android:layout_alignStart="@+id/backButton"
+        android:layout_toLeftOf="@+id/increaseButton"
+        android:layout_marginRight ="20dp"
         android:textColor="#ffff0014" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/increaseButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="30dp"
+        android:layout_alignTop="@+id/pepeButton"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@+id/decreaseButton"
+        android:layout_marginRight ="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/decreaseButton"
+        android:background="@drawable/rounded_button"
+        android:textSize="35dp"
+        android:layout_alignTop="@+id/increaseButton"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -88,12 +81,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/doneButton"
         android:background="@drawable/rounded_button"
-        android:textSize="40dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
+        android:textSize="0dp"
         android:layout_alignTop="@+id/decreaseButton"
-        android:layout_toLeftOf="@+id/pepeButton"
-        android:layout_toStartOf="@+id/pepeButton" />
+        android:layout_toRightOf="@+id/decreaseButton"
+        android:layout_marginLeft="20dp"/>
 
     <ImageView
         android:layout_width="30dp"
