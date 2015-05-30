@@ -79,7 +79,8 @@
         android:layout_alignTop="@+id/pepeButton"
         android:layout_marginTop="12dp"
         android:layout_alignLeft="@+id/backButton"
-        android:layout_alignStart="@+id/backButton" />
+        android:layout_alignStart="@+id/backButton"
+        android:textColor="#ffff0014" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
