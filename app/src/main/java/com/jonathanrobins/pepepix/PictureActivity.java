@@ -29,7 +29,7 @@ public class PictureActivity extends ActionBarActivity {
     private Button deleteButton;
     private Button doneButton;
     private ImageView picture;
-    private ImageView checkmark;
+    private ImageView saveIcon;
     private boolean clicked = false;
     private int width;
     private int height;
@@ -78,7 +78,7 @@ public class PictureActivity extends ActionBarActivity {
         scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
-        checkmark = (ImageView) findViewById(R.id.checkmark);
+        saveIcon = (ImageView) findViewById(R.id.save);
 
         //width and height of screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -150,7 +150,7 @@ public class PictureActivity extends ActionBarActivity {
                     increaseButton.setAlpha(0.0f);
                     decreaseButton.setAlpha(0.0f);
                     doneButton.setAlpha(0.0f);
-                    checkmark.setVisibility(View.INVISIBLE);
+                    saveIcon.setVisibility(View.INVISIBLE);
                     pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
                     clicked = true;
                     //moves scrollview in view
@@ -189,13 +189,9 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
+                        public void onAnimationStart(Animation animation) {}
                         @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-
+                        public void onAnimationRepeat(Animation animation) {}
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             deleteButton.setAlpha(100.0f);
@@ -203,7 +199,7 @@ public class PictureActivity extends ActionBarActivity {
                             increaseButton.setAlpha(100.0f);
                             decreaseButton.setAlpha(100.0f);
                             doneButton.setAlpha(100.0f);
-                            checkmark.setVisibility(View.VISIBLE);
+                            saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
                     scrollView.startAnimation(a);
@@ -232,13 +228,9 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
+                        public void onAnimationStart(Animation animation) {}
                         @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-
+                        public void onAnimationRepeat(Animation animation) {}
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             deleteButton.setAlpha(100.0f);
@@ -246,11 +238,18 @@ public class PictureActivity extends ActionBarActivity {
                             increaseButton.setAlpha(100.0f);
                             decreaseButton.setAlpha(100.0f);
                             doneButton.setAlpha(100.0f);
-                            checkmark.setVisibility(View.VISIBLE);
+                            saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
                     scrollView.startAnimation(a);
                 }
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("SAVING!");
             }
         });
     }
@@ -281,7 +280,7 @@ public class PictureActivity extends ActionBarActivity {
                             deleteButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    
+                                    clickedPepe.setVisibility(View.GONE);
                                 }
                             });
                             increaseButton.setOnClickListener(new View.OnClickListener() {
@@ -348,13 +347,9 @@ public class PictureActivity extends ActionBarActivity {
             a.setDuration(700); // in ms
             a.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
+                public void onAnimationStart(Animation animation) {}
                 @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-
+                public void onAnimationRepeat(Animation animation) {}
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     deleteButton.setAlpha(100.0f);
@@ -362,7 +357,7 @@ public class PictureActivity extends ActionBarActivity {
                     increaseButton.setAlpha(100.0f);
                     decreaseButton.setAlpha(100.0f);
                     doneButton.setAlpha(100.0f);
-                    checkmark.setVisibility(View.VISIBLE);
+                    saveIcon.setVisibility(View.VISIBLE);
                 }
             });
             scrollView.startAnimation(a);
