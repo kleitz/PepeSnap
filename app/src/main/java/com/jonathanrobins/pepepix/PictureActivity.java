@@ -176,7 +176,7 @@ public class PictureActivity extends ActionBarActivity {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
-                    Animation a = new Animation() {
+                    final Animation a = new Animation() {
                         @Override
                         protected void applyTransformation(float interpolatedTime, Transformation t) {
                             RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
@@ -187,13 +187,26 @@ public class PictureActivity extends ActionBarActivity {
                         }
                     };
                     a.setDuration(700); // in ms
+                    a.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            deleteButton.setAlpha(100.0f);
+                            backButton.setAlpha(100.0f);
+                            increaseButton.setAlpha(100.0f);
+                            decreaseButton.setAlpha(100.0f);
+                            doneButton.setAlpha(100.0f);
+                            checkmark.setVisibility(View.VISIBLE);
+                        }
+                    });
                     scrollView.startAnimation(a);
-                    deleteButton.setAlpha(100.0f);
-                    backButton.setAlpha(100.0f);
-                    increaseButton.setAlpha(100.0f);
-                    decreaseButton.setAlpha(100.0f);
-                    doneButton.setAlpha(100.0f);
-                    //checkmark.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -217,13 +230,26 @@ public class PictureActivity extends ActionBarActivity {
                         }
                     };
                     a.setDuration(700); // in ms
+                    a.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            deleteButton.setAlpha(100.0f);
+                            backButton.setAlpha(100.0f);
+                            increaseButton.setAlpha(100.0f);
+                            decreaseButton.setAlpha(100.0f);
+                            doneButton.setAlpha(100.0f);
+                            checkmark.setVisibility(View.VISIBLE);
+                        }
+                    });
                     scrollView.startAnimation(a);
-                    deleteButton.setAlpha(100.0f);
-                    backButton.setAlpha(100.0f);
-                    increaseButton.setAlpha(100.0f);
-                    decreaseButton.setAlpha(100.0f);
-                    doneButton.setAlpha(100.0f);
-                    //checkmark.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -252,17 +278,23 @@ public class PictureActivity extends ActionBarActivity {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             //sets methods for zoom buttons when a certain pepe is touched
-                            decreaseButton.setOnClickListener(new View.OnClickListener() {
+                            deleteButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    layoutParams.width = layoutParams.width - 20;
-                                    clickedPepe.setLayoutParams(layoutParams);
+                                    
                                 }
                             });
                             increaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    layoutParams.width = layoutParams.width + 20;
+                                    layoutParams.width = layoutParams.width + 50;
+                                    clickedPepe.setLayoutParams(layoutParams);
+                                }
+                            });
+                            decreaseButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    layoutParams.width = layoutParams.width - 50;
                                     clickedPepe.setLayoutParams(layoutParams);
                                 }
                             });
@@ -314,13 +346,26 @@ public class PictureActivity extends ActionBarActivity {
                 }
             };
             a.setDuration(700); // in ms
+            a.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    deleteButton.setAlpha(100.0f);
+                    backButton.setAlpha(100.0f);
+                    increaseButton.setAlpha(100.0f);
+                    decreaseButton.setAlpha(100.0f);
+                    doneButton.setAlpha(100.0f);
+                    checkmark.setVisibility(View.VISIBLE);
+                }
+            });
             scrollView.startAnimation(a);
-            deleteButton.setAlpha(100.0f);
-            backButton.setAlpha(100.0f);
-            increaseButton.setAlpha(100.0f);
-            decreaseButton.setAlpha(100.0f);
-            doneButton.setAlpha(100.0f);
-            checkmark.setVisibility(View.VISIBLE);
         }
     };
 }
