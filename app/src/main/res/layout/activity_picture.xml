@@ -87,17 +87,17 @@
         android:layout_marginLeft="20dp"/>
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/checkmark"
-        android:background="@drawable/checkmark"
-        android:layout_marginBottom="8dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:id="@+id/save"
+        android:background="@drawable/save"
+        android:focusable="false"
+        android:layout_marginBottom="9dp"
         android:layout_alignBottom="@+id/doneButton"
-        android:layout_alignRight="@+id/doneButton"
-        android:layout_alignEnd="@+id/doneButton"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp"
-        android:focusable="false" />
+        android:layout_toLeftOf="@+id/pepeButton"
+        android:layout_toStartOf="@+id/pepeButton"
+        android:layout_marginRight="9dp"
+        android:layout_marginEnd="9dp" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:animateLayoutChanges="true"
