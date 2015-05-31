@@ -61,6 +61,10 @@ public class PictureActivity extends ActionBarActivity {
         increaseButton.setTextColor(Color.parseColor("white"));
         decreaseButton.setTextColor(Color.parseColor("white"));
         deleteButton.setTextColor(Color.parseColor("red"));
+        //set visibility of buttons
+        deleteButton.setVisibility(View.INVISIBLE);
+        increaseButton.setVisibility(View.INVISIBLE);
+        decreaseButton.setVisibility(View.INVISIBLE);
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
         for (int i = 0; i < pepes.length; i++) {
@@ -219,8 +223,6 @@ public class PictureActivity extends ActionBarActivity {
                         @Override
                         protected void applyTransformation(float interpolatedTime, Transformation t) {
                             RelativeLayout.LayoutParams layouts = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
-                            //layouts.leftMargin = (int)(width * 2 * interpolatedTime);
-                            // layouts.rightMargin = (int)(-width * 2 * (interpolatedTime));
                             layouts.topMargin = (int) (height * 2 * interpolatedTime);
                             scrollView.setLayoutParams(layouts);
                         }
@@ -269,7 +271,10 @@ public class PictureActivity extends ActionBarActivity {
             final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
             layoutParams.topMargin = (int) (height - height / 1.5);
             layoutParams.leftMargin = (int) (width - width / 1.5);
+            layoutParams.width = 600;
             clickedPepe.setLayoutParams(layoutParams);
+            clickedPepe.setMaxWidth(2000);
+            clickedPepe.setAdjustViewBounds(true);
             //sets onTouch listeners for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -277,24 +282,36 @@ public class PictureActivity extends ActionBarActivity {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             //sets methods for zoom buttons when a certain pepe is touched
+                            deleteButton.setVisibility(View.VISIBLE);
+                            increaseButton.setVisibility(View.VISIBLE);
+                            decreaseButton.setVisibility(View.VISIBLE);
                             deleteButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     clickedPepe.setVisibility(View.GONE);
+                                    deleteButton.setVisibility(View.INVISIBLE);
+                                    increaseButton.setVisibility(View.INVISIBLE);
+                                    decreaseButton.setVisibility(View.INVISIBLE);
                                 }
                             });
                             increaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    layoutParams.width = layoutParams.width + 50;
-                                    clickedPepe.setLayoutParams(layoutParams);
+                                    System.out.println(layoutParams.width);
+                                    if(layoutParams.width < width) {
+                                        layoutParams.width = layoutParams.width + 50;
+                                        clickedPepe.setLayoutParams(layoutParams);
+                                    }
                                 }
                             });
                             decreaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    layoutParams.width = layoutParams.width - 50;
-                                    clickedPepe.setLayoutParams(layoutParams);
+                                    System.out.println(layoutParams.width);
+                                    if(layoutParams.width > 85) {
+                                        layoutParams.width = layoutParams.width - 50;
+                                        clickedPepe.setLayoutParams(layoutParams);
+                                    }
                                 }
                             });
                             break;
@@ -305,8 +322,6 @@ public class PictureActivity extends ActionBarActivity {
                                 int y = (int) event.getRawY();
                                 layoutParams.leftMargin = x - 400;
                                 layoutParams.topMargin = y - 400;
-                                //MAYBE SET params.width FOR IMAGE FIRST THEN PERFORM ACTIONS ON ITS SIZE SINCE IT STARTS AT 0 FOR SOME REASON
-                                //layoutParams.width =  layoutParams.width + 20;
                                 clickedPepe.setLayoutParams(layoutParams);
                                 break;
                             }
