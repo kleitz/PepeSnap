@@ -215,11 +215,11 @@ public class PictureActivity extends ActionBarActivity {
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deleteButton.setVisibility(View.INVISIBLE);
+                increaseButton.setVisibility(View.INVISIBLE);
+                decreaseButton.setVisibility(View.INVISIBLE);
                 if (clicked == true) {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
-                    deleteButton.setVisibility(View.INVISIBLE);
-                    increaseButton.setVisibility(View.INVISIBLE);
-                    decreaseButton.setVisibility(View.INVISIBLE);
                     clicked = false;
                     //moves scrollview out of view
                     Animation a = new Animation() {
