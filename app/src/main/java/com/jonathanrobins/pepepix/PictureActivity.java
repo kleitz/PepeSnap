@@ -217,6 +217,9 @@ public class PictureActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (clicked == true) {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+                    deleteButton.setVisibility(View.INVISIBLE);
+                    increaseButton.setVisibility(View.INVISIBLE);
+                    decreaseButton.setVisibility(View.INVISIBLE);
                     clicked = false;
                     //moves scrollview out of view
                     Animation a = new Animation() {
@@ -321,7 +324,9 @@ public class PictureActivity extends ActionBarActivity {
                                 int x = (int) event.getRawX();
                                 int y = (int) event.getRawY();
                                 layoutParams.leftMargin = x - 400;
+                                layoutParams.rightMargin = -400;
                                 layoutParams.topMargin = y - 400;
+                                layoutParams.bottomMargin = -400;
                                 clickedPepe.setLayoutParams(layoutParams);
                                 break;
                             }
@@ -344,6 +349,10 @@ public class PictureActivity extends ActionBarActivity {
             //bringing misc views in front of pictures because pictures are thrown over them
             scrollView.bringToFront();
             backButton.bringToFront();
+            deleteButton.bringToFront();
+            increaseButton.bringToFront();
+            decreaseButton.bringToFront();
+            doneButton.bringToFront();
             pepeButton.bringToFront();
             //move other picture_activity stuff away
             pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
