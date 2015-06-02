@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
                                 break;
                         }
                         //check for cameraID of front facing camera and flips accordingly
-                        Camera.CameraInfo info = new Camera.CameraInfo();
+                        /*Camera.CameraInfo info = new Camera.CameraInfo();
                         android.hardware.Camera.getCameraInfo(cameraID, info);
                         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
                         {
@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
                             matrixMirrorY.setValues(mirrorY);
                             matrix.postConcat(matrixMirrorY);
                             rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                        }
+                        }*/
 
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
                         //assigns to global bitmap variable then goes to intent

@@ -3,7 +3,9 @@ package com.jonathanrobins.pepepix;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
@@ -38,6 +40,7 @@ public class PictureActivity extends ActionBarActivity {
     private ScrollView scrollView;
     private RelativeLayout relativeLayout;
     private ViewGroup mainRelativeLayout;
+    ImageView lastClickedPepe = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +158,9 @@ public class PictureActivity extends ActionBarActivity {
 
                 //not clicked yet
                 if (clicked == false) {
+                    if(lastClickedPepe != null) {
+                        lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                    }
                     deleteButton.setAlpha(0.0f);
                     backButton.setAlpha(0.0f);
                     increaseButton.setAlpha(0.0f);
@@ -186,6 +192,9 @@ public class PictureActivity extends ActionBarActivity {
                 }
                 //clicked already
                 else {
+                    if(lastClickedPepe != null) {
+                        lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                    }
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
@@ -226,6 +235,7 @@ public class PictureActivity extends ActionBarActivity {
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                 if (clicked == true) {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
@@ -265,6 +275,19 @@ public class PictureActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("SAVING!");
+                backButton.setVisibility(View.INVISIBLE);
+                pepeButton.setVisibility(View.INVISIBLE);
+                deleteButton.setVisibility(View.INVISIBLE);
+                decreaseButton.setVisibility(View.INVISIBLE);
+                increaseButton.setVisibility(View.INVISIBLE);
+                flipButton.setVisibility(View.INVISIBLE);
+                doneButton.setVisibility(View.INVISIBLE);
+                if(lastClickedPepe != null) {
+                    lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                }
+
+                //save logic
+                
             }
         });
     }
@@ -295,11 +318,17 @@ public class PictureActivity extends ActionBarActivity {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             //sets methods for zoom buttons when a certain pepe is touched
+                            if(lastClickedPepe != null) {
+                                lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                            }
+                            lastClickedPepe = clickedPepe;
+                            clickedPepe.setBackgroundResource(R.drawable.border);
                             deleteButton.setVisibility(View.VISIBLE);
                             increaseButton.setVisibility(View.VISIBLE);
                             decreaseButton.setVisibility(View.VISIBLE);
                             flipButton.setVisibility(View.VISIBLE);
                             flipIcon.setVisibility(View.VISIBLE);
+                            //deletes pepe
                             deleteButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -311,6 +340,7 @@ public class PictureActivity extends ActionBarActivity {
                                     flipIcon.setVisibility(View.INVISIBLE);
                                 }
                             });
+                            //zooms in pepe
                             increaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -321,6 +351,7 @@ public class PictureActivity extends ActionBarActivity {
                                     }
                                 }
                             });
+                            //zooms out pepe
                             decreaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -329,6 +360,20 @@ public class PictureActivity extends ActionBarActivity {
                                         layoutParams.width = layoutParams.width - 50;
                                         clickedPepe.setLayoutParams(layoutParams);
                                     }
+                                }
+                            });
+                            //flips pepe
+                            flipButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Bitmap bitmap = ((BitmapDrawable)clickedPepe.getDrawable()).getBitmap();
+                                    Matrix matrix = new Matrix();
+                                    float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
+                                    Matrix matrixMirrorY = new Matrix();
+                                    matrixMirrorY.setValues(mirrorY);
+                                    matrix.postConcat(matrixMirrorY);
+                                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                                    clickedPepe.setImageBitmap(bitmap);
                                 }
                             });
                             break;
