@@ -27,8 +27,10 @@ public class PictureActivity extends ActionBarActivity {
     private Button decreaseButton;
     private Button increaseButton;
     private Button deleteButton;
+    private Button flipButton;
     private Button doneButton;
     private ImageView picture;
+    private ImageView flipIcon;
     private ImageView saveIcon;
     private boolean clicked = false;
     private int width;
@@ -56,6 +58,7 @@ public class PictureActivity extends ActionBarActivity {
         decreaseButton = (Button) findViewById(R.id.decreaseButton);
         increaseButton = (Button) findViewById(R.id.increaseButton);
         deleteButton = (Button) findViewById(R.id.deleteButton);
+        flipButton = (Button) findViewById(R.id.flipButton);
         doneButton = (Button) findViewById(R.id.doneButton);
         backButton.setTextColor(Color.parseColor("white"));
         increaseButton.setTextColor(Color.parseColor("white"));
@@ -65,6 +68,7 @@ public class PictureActivity extends ActionBarActivity {
         deleteButton.setVisibility(View.INVISIBLE);
         increaseButton.setVisibility(View.INVISIBLE);
         decreaseButton.setVisibility(View.INVISIBLE);
+        flipButton.setVisibility(View.INVISIBLE);
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3};
         for (int i = 0; i < pepes.length; i++) {
@@ -82,7 +86,9 @@ public class PictureActivity extends ActionBarActivity {
         scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
         relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
+        flipIcon = (ImageView) findViewById(R.id.flip);
         saveIcon = (ImageView) findViewById(R.id.save);
+        flipIcon.setVisibility(View.INVISIBLE);
 
         //width and height of screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -153,7 +159,10 @@ public class PictureActivity extends ActionBarActivity {
                     backButton.setAlpha(0.0f);
                     increaseButton.setAlpha(0.0f);
                     decreaseButton.setAlpha(0.0f);
+                    flipButton.setAlpha(0.0f);
                     doneButton.setAlpha(0.0f);
+                    flipIcon.setAlpha(0.0f);
+                    flipIcon.setVisibility(View.INVISIBLE);
                     saveIcon.setVisibility(View.INVISIBLE);
                     pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
                     clicked = true;
@@ -202,7 +211,9 @@ public class PictureActivity extends ActionBarActivity {
                             backButton.setAlpha(100.0f);
                             increaseButton.setAlpha(100.0f);
                             decreaseButton.setAlpha(100.0f);
+                            flipButton.setAlpha(100.0f);
                             doneButton.setAlpha(100.0f);
+                            flipIcon.setAlpha(100.0f);
                             saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
@@ -239,7 +250,9 @@ public class PictureActivity extends ActionBarActivity {
                             backButton.setAlpha(100.0f);
                             increaseButton.setAlpha(100.0f);
                             decreaseButton.setAlpha(100.0f);
+                            flipButton.setAlpha(100.0f);
                             doneButton.setAlpha(100.0f);
+                            flipIcon.setAlpha(100.0f);
                             saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
@@ -285,13 +298,17 @@ public class PictureActivity extends ActionBarActivity {
                             deleteButton.setVisibility(View.VISIBLE);
                             increaseButton.setVisibility(View.VISIBLE);
                             decreaseButton.setVisibility(View.VISIBLE);
+                            flipButton.setVisibility(View.VISIBLE);
+                            flipIcon.setVisibility(View.VISIBLE);
                             deleteButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     clickedPepe.setVisibility(View.GONE);
                                     deleteButton.setVisibility(View.INVISIBLE);
                                     increaseButton.setVisibility(View.INVISIBLE);
+                                    flipButton.setVisibility(View.INVISIBLE);
                                     decreaseButton.setVisibility(View.INVISIBLE);
+                                    flipIcon.setVisibility(View.INVISIBLE);
                                 }
                             });
                             increaseButton.setOnClickListener(new View.OnClickListener() {
@@ -349,6 +366,7 @@ public class PictureActivity extends ActionBarActivity {
             deleteButton.bringToFront();
             increaseButton.bringToFront();
             decreaseButton.bringToFront();
+            flipButton.bringToFront();
             doneButton.bringToFront();
             pepeButton.bringToFront();
             //move other picture_activity stuff away
@@ -377,7 +395,9 @@ public class PictureActivity extends ActionBarActivity {
                     backButton.setAlpha(100.0f);
                     increaseButton.setAlpha(100.0f);
                     decreaseButton.setAlpha(100.0f);
+                    flipButton.setAlpha(100.0f);
                     doneButton.setAlpha(100.0f);
+                    flipIcon.setAlpha(100.0f);
                     saveIcon.setVisibility(View.VISIBLE);
                 }
             });
