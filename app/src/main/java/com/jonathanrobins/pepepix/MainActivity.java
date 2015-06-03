@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.media.ExifInterface;
@@ -26,10 +27,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
+
 public class MainActivity extends ActionBarActivity {
 
-    final int REQUEST_IMAGE_CAPTURE = 1;
-    int cameraID;
+    private Button cameraButton;
+    private final int REQUEST_IMAGE_CAPTURE = 1;
+    private int cameraID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,10 @@ public class MainActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_main);
+        cameraButton = (Button) findViewById(R.id.cameraButton);
+        cameraButton.setBackgroundResource(R.drawable.camera_animation);
+        AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
+        animation.start();
         buttonLogic();
     }
 
@@ -69,10 +76,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void buttonLogic() {
-        Button button = (Button) findViewById(R.id.cameraButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cameraButton.setBackgroundResource(R.drawable.camera_animation);
                 //create intent and send picture through intent as extra, created as temp file on device
                 final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
