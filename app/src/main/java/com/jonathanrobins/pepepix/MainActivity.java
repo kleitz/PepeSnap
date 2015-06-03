@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.provider.MediaStore.Audio.Media;
@@ -47,10 +49,34 @@ public class MainActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_main);
         cameraButton = (Button) findViewById(R.id.cameraButton);
+
         cameraButton.setBackgroundResource(R.drawable.camera_animation);
         AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
         animation.start();
-        buttonLogic();
+
+        cameraButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
+                        cameraButton.setBackgroundResource(R.drawable.camera_animation);
+                        AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
+                        animation.start();
+                        buttonLogic();
+                        break;
+                    }
+                    case MotionEvent.ACTION_CANCEL: {
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -76,17 +102,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void buttonLogic() {
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cameraButton.setBackgroundResource(R.drawable.camera_animation);
-                //create intent and send picture through intent as extra, created as temp file on device
-                final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
-            }
-        });
+        //create intent and send picture through intent as extra, created as temp file on device
+        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
