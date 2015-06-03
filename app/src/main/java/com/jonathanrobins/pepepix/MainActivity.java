@@ -73,7 +73,6 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Taking a picture!");
                 //create intent and send picture through intent as extra, created as temp file on device
                 final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
@@ -98,6 +97,9 @@ public class MainActivity extends ActionBarActivity {
                         //rotate picture certain # of degrees depending on orientation then sets new matrix
                         Matrix matrix = new Matrix();
                         switch (orientation) {
+                            case 1:
+                                matrix.postRotate(270);
+                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
                             case 3:
                                 matrix.postRotate(180);
                                 rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);

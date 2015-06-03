@@ -1,14 +1,24 @@
 package com.jonathanrobins.pepepix;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,6 +32,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PictureActivity extends ActionBarActivity {
     private Button backButton;
@@ -158,16 +177,15 @@ public class PictureActivity extends ActionBarActivity {
 
                 //not clicked yet
                 if (clicked == false) {
-                    if(lastClickedPepe != null) {
+                    if (lastClickedPepe != null) {
                         lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                     }
-                    deleteButton.setAlpha(0.0f);
-                    backButton.setAlpha(0.0f);
-                    increaseButton.setAlpha(0.0f);
-                    decreaseButton.setAlpha(0.0f);
-                    flipButton.setAlpha(0.0f);
-                    doneButton.setAlpha(0.0f);
-                    flipIcon.setAlpha(0.0f);
+                    deleteButton.setVisibility(View.INVISIBLE);
+                    backButton.setVisibility(View.INVISIBLE);
+                    increaseButton.setVisibility(View.INVISIBLE);
+                    decreaseButton.setVisibility(View.INVISIBLE);
+                    flipButton.setVisibility(View.INVISIBLE);
+                    doneButton.setVisibility(View.INVISIBLE);
                     flipIcon.setVisibility(View.INVISIBLE);
                     saveIcon.setVisibility(View.INVISIBLE);
                     pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
@@ -192,7 +210,7 @@ public class PictureActivity extends ActionBarActivity {
                 }
                 //clicked already
                 else {
-                    if(lastClickedPepe != null) {
+                    if (lastClickedPepe != null) {
                         lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                     }
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
@@ -211,18 +229,22 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
+
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
                         @Override
                         public void onAnimationEnd(Animation animation) {
-                            deleteButton.setAlpha(100.0f);
-                            backButton.setAlpha(100.0f);
-                            increaseButton.setAlpha(100.0f);
-                            decreaseButton.setAlpha(100.0f);
-                            flipButton.setAlpha(100.0f);
-                            doneButton.setAlpha(100.0f);
-                            flipIcon.setAlpha(100.0f);
+                            deleteButton.setVisibility(View.INVISIBLE);
+                            backButton.setVisibility(View.VISIBLE);
+                            increaseButton.setVisibility(View.INVISIBLE);
+                            decreaseButton.setVisibility(View.INVISIBLE);
+                            flipButton.setVisibility(View.INVISIBLE);
+                            doneButton.setVisibility(View.VISIBLE);
+                            flipIcon.setVisibility(View.INVISIBLE);
                             saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
@@ -235,7 +257,14 @@ public class PictureActivity extends ActionBarActivity {
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                if (lastClickedPepe != null) {
+                    lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                }
+                deleteButton.setVisibility(View.INVISIBLE);
+                increaseButton.setVisibility(View.INVISIBLE);
+                decreaseButton.setVisibility(View.INVISIBLE);
+                flipButton.setVisibility(View.INVISIBLE);
+                flipIcon.setVisibility(View.INVISIBLE);
                 if (clicked == true) {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
@@ -251,18 +280,22 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
+
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+
                         @Override
                         public void onAnimationEnd(Animation animation) {
-                            deleteButton.setAlpha(100.0f);
-                            backButton.setAlpha(100.0f);
-                            increaseButton.setAlpha(100.0f);
-                            decreaseButton.setAlpha(100.0f);
-                            flipButton.setAlpha(100.0f);
-                            doneButton.setAlpha(100.0f);
-                            flipIcon.setAlpha(100.0f);
+                            deleteButton.setVisibility(View.INVISIBLE);
+                            backButton.setVisibility(View.VISIBLE);
+                            increaseButton.setVisibility(View.INVISIBLE);
+                            decreaseButton.setVisibility(View.INVISIBLE);
+                            flipButton.setVisibility(View.INVISIBLE);
+                            doneButton.setVisibility(View.VISIBLE);
+                            flipIcon.setVisibility(View.INVISIBLE);
                             saveIcon.setVisibility(View.VISIBLE);
                         }
                     });
@@ -274,7 +307,6 @@ public class PictureActivity extends ActionBarActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("SAVING!");
                 backButton.setVisibility(View.INVISIBLE);
                 pepeButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
@@ -282,12 +314,14 @@ public class PictureActivity extends ActionBarActivity {
                 increaseButton.setVisibility(View.INVISIBLE);
                 flipButton.setVisibility(View.INVISIBLE);
                 doneButton.setVisibility(View.INVISIBLE);
-                if(lastClickedPepe != null) {
+                flipIcon.setVisibility(View.INVISIBLE);
+                saveIcon.setVisibility(View.INVISIBLE);
+                if (lastClickedPepe != null) {
                     lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                 }
 
-                //save logic
-                
+                //calls dialog window and save logic
+                openDialog();
             }
         });
     }
@@ -318,7 +352,7 @@ public class PictureActivity extends ActionBarActivity {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             //sets methods for zoom buttons when a certain pepe is touched
-                            if(lastClickedPepe != null) {
+                            if (lastClickedPepe != null) {
                                 lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                             }
                             lastClickedPepe = clickedPepe;
@@ -345,7 +379,7 @@ public class PictureActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println(layoutParams.width);
-                                    if(layoutParams.width < width) {
+                                    if (layoutParams.width < width) {
                                         layoutParams.width = layoutParams.width + 50;
                                         clickedPepe.setLayoutParams(layoutParams);
                                     }
@@ -356,7 +390,7 @@ public class PictureActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println(layoutParams.width);
-                                    if(layoutParams.width > 85) {
+                                    if (layoutParams.width > 85) {
                                         layoutParams.width = layoutParams.width - 50;
                                         clickedPepe.setLayoutParams(layoutParams);
                                     }
@@ -366,9 +400,9 @@ public class PictureActivity extends ActionBarActivity {
                             flipButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Bitmap bitmap = ((BitmapDrawable)clickedPepe.getDrawable()).getBitmap();
+                                    Bitmap bitmap = ((BitmapDrawable) clickedPepe.getDrawable()).getBitmap();
                                     Matrix matrix = new Matrix();
-                                    float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
+                                    float[] mirrorY = {-1, 0, 0, 0, 1, 0, 0, 0, 1};
                                     Matrix matrixMirrorY = new Matrix();
                                     matrixMirrorY.setValues(mirrorY);
                                     matrix.postConcat(matrixMirrorY);
@@ -431,22 +465,90 @@ public class PictureActivity extends ActionBarActivity {
             a.setDuration(700); // in ms
             a.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {}
+                public void onAnimationStart(Animation animation) {
+                }
+
                 @Override
-                public void onAnimationRepeat(Animation animation) {}
+                public void onAnimationRepeat(Animation animation) {
+                }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    deleteButton.setAlpha(100.0f);
-                    backButton.setAlpha(100.0f);
-                    increaseButton.setAlpha(100.0f);
-                    decreaseButton.setAlpha(100.0f);
-                    flipButton.setAlpha(100.0f);
-                    doneButton.setAlpha(100.0f);
-                    flipIcon.setAlpha(100.0f);
+                    doneButton.setVisibility(View.VISIBLE);
                     saveIcon.setVisibility(View.VISIBLE);
                 }
             });
             scrollView.startAnimation(a);
         }
     };
+
+    public void openDialog() {
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle("All Finished?")
+                .setMessage("Would you like to save this picture?")
+                        //yes
+                .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //screenshots current screen with added pepes
+                        View v = getWindow().getDecorView().getRootView();
+                        v.setDrawingCacheEnabled(true);
+                        Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
+                        v.setDrawingCacheEnabled(false);
+
+                        try {
+
+                            String path = Environment.getExternalStorageDirectory()
+                                    .toString();
+                            File newFolder = new File(path + "/Pepes");
+                            newFolder.mkdirs();
+                            OutputStream fOut = null;
+
+                            //get timestamp of picture taken
+                            SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                            String timestamp = s.format(new Date());
+
+                            //save image
+                            File file = new File(path, "/Pepes/" + timestamp + ".png");
+                            fOut = new FileOutputStream(file);
+                            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                            fOut.flush();
+                            fOut.close();
+
+                            //refresh galleries and photo apps
+                            MediaScannerConnection.scanFile(PictureActivity.this, new String[]{file.getPath()}, new String[]{"image/jpeg"}, null);
+
+                            //final logic for saving picture
+                            Toast.makeText(getApplicationContext(),
+                                    "Your Pepe has been saved!", Toast.LENGTH_LONG)
+                                    .show();
+                            finish();
+                            Intent i = new Intent(getBaseContext(), MainActivity.class);
+                            startActivity(i);
+                            PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+                        } catch (Exception e) {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Problem to Save the File", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                        //no
+                .setNegativeButton("Not yet.", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        backButton.setVisibility(View.VISIBLE);
+                        pepeButton.setVisibility(View.VISIBLE);
+                        deleteButton.setVisibility(View.VISIBLE);
+                        decreaseButton.setVisibility(View.VISIBLE);
+                        increaseButton.setVisibility(View.VISIBLE);
+                        flipButton.setVisibility(View.VISIBLE);
+                        doneButton.setVisibility(View.VISIBLE);
+                        flipIcon.setVisibility(View.VISIBLE);
+                        saveIcon.setVisibility(View.VISIBLE);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 }
