@@ -125,6 +125,16 @@
         android:layout_alignRight="@+id/doneButton"
         android:layout_alignEnd="@+id/doneButton" />
 
+    <ImageView
+        android:layout_width="93dp"
+        android:layout_height="81.33dp"
+        android:id="@+id/tapIndicator"
+        android:background="@drawable/tap_indicator"
+        android:focusable="false"
+        android:layout_below="@+id/backButton"
+        android:layout_toRightOf="@+id/flip"
+        android:layout_toEndOf="@+id/flip" />
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:animateLayoutChanges="true"
         android:id="@+id/pictureScrollView"

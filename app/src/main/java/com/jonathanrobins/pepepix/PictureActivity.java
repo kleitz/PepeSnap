@@ -53,6 +53,7 @@ public class PictureActivity extends ActionBarActivity {
     private ImageView picture;
     private ImageView flipIcon;
     private ImageView saveIcon;
+    private ImageView tapIndicator;
     private boolean clicked = false;
     private int width;
     private int height;
@@ -110,7 +111,9 @@ public class PictureActivity extends ActionBarActivity {
         mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
         flipIcon = (ImageView) findViewById(R.id.flip);
         saveIcon = (ImageView) findViewById(R.id.save);
+        tapIndicator = (ImageView) findViewById(R.id.tapIndicator);
         flipIcon.setVisibility(View.INVISIBLE);
+        tapIndicator.setVisibility(View.INVISIBLE);
 
         //width and height of screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -206,6 +209,17 @@ public class PictureActivity extends ActionBarActivity {
                         }
                     };
                     a.setDuration(700); // in ms
+                    a.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {}
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {}
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tapIndicator.setVisibility(View.VISIBLE);
+                            tapIndicator.bringToFront();
+                        }
+                    });
                     scrollView.startAnimation(a);
                 }
                 //clicked already
@@ -213,6 +227,7 @@ public class PictureActivity extends ActionBarActivity {
                     if (lastClickedPepe != null) {
                         lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                     }
+                    tapIndicator.setVisibility(View.INVISIBLE);
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
@@ -229,13 +244,9 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
+                        public void onAnimationStart(Animation animation) {}
                         @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-
+                        public void onAnimationRepeat(Animation animation) {}
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             deleteButton.setVisibility(View.INVISIBLE);
@@ -267,6 +278,7 @@ public class PictureActivity extends ActionBarActivity {
                 flipIcon.setVisibility(View.INVISIBLE);
                 if (clicked == true) {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+                    tapIndicator.setVisibility(View.INVISIBLE);
                     clicked = false;
                     //moves scrollview out of view
                     Animation a = new Animation() {
@@ -280,13 +292,9 @@ public class PictureActivity extends ActionBarActivity {
                     a.setDuration(700); // in ms
                     a.setAnimationListener(new Animation.AnimationListener() {
                         @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
+                        public void onAnimationStart(Animation animation) {}
                         @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-
+                        public void onAnimationRepeat(Animation animation) {}
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             deleteButton.setVisibility(View.INVISIBLE);
@@ -319,7 +327,6 @@ public class PictureActivity extends ActionBarActivity {
                 if (lastClickedPepe != null) {
                     lastClickedPepe.setBackgroundResource(R.drawable.no_border);
                 }
-
                 //calls dialog window and save logic
                 openDialog();
             }
@@ -343,7 +350,7 @@ public class PictureActivity extends ActionBarActivity {
             layoutParams.leftMargin = (int) (width - width / 1.5);
             layoutParams.width = 600;
             clickedPepe.setLayoutParams(layoutParams);
-            clickedPepe.setMaxWidth(2000);
+            clickedPepe.setMaxWidth(3000);
             clickedPepe.setAdjustViewBounds(true);
             //sets onTouch listeners for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
@@ -379,7 +386,7 @@ public class PictureActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println(layoutParams.width);
-                                    if (layoutParams.width < width) {
+                                    if (layoutParams.width < width + 1000) {
                                         layoutParams.width = layoutParams.width + 50;
                                         clickedPepe.setLayoutParams(layoutParams);
                                     }
@@ -390,7 +397,7 @@ public class PictureActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(View v) {
                                     System.out.println(layoutParams.width);
-                                    if (layoutParams.width > 85) {
+                                    if (layoutParams.width > 100) {
                                         layoutParams.width = layoutParams.width - 50;
                                         clickedPepe.setLayoutParams(layoutParams);
                                     }
@@ -450,6 +457,7 @@ public class PictureActivity extends ActionBarActivity {
             pepeButton.bringToFront();
             //move other picture_activity stuff away
             pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+            tapIndicator.setVisibility(View.INVISIBLE);
             clicked = false;
             //moves scrollview out of view
             Animation a = new Animation() {
@@ -465,18 +473,13 @@ public class PictureActivity extends ActionBarActivity {
             a.setDuration(700); // in ms
             a.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
+                public void onAnimationStart(Animation animation) {}
                 @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-
+                public void onAnimationRepeat(Animation animation) {}
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     doneButton.setVisibility(View.VISIBLE);
-                    saveIcon.setVisibility(View.VISIBLE);
-                }
+                    saveIcon.setVisibility(View.VISIBLE);}
             });
             scrollView.startAnimation(a);
         }
@@ -539,12 +542,7 @@ public class PictureActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         backButton.setVisibility(View.VISIBLE);
                         pepeButton.setVisibility(View.VISIBLE);
-                        deleteButton.setVisibility(View.VISIBLE);
-                        decreaseButton.setVisibility(View.VISIBLE);
-                        increaseButton.setVisibility(View.VISIBLE);
-                        flipButton.setVisibility(View.VISIBLE);
                         doneButton.setVisibility(View.VISIBLE);
-                        flipIcon.setVisibility(View.VISIBLE);
                         saveIcon.setVisibility(View.VISIBLE);
                     }
                 })
