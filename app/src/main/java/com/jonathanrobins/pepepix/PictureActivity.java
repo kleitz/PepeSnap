@@ -1,9 +1,6 @@
 package com.jonathanrobins.pepepix;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,13 +9,10 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -33,11 +27,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -153,6 +144,7 @@ public class PictureActivity extends ActionBarActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             Intent i = new Intent(getBaseContext(), MainActivity.class);
+            GlobalClass.didFinishEditing = true;
             startActivity(i);
             this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             return true;
@@ -168,6 +160,7 @@ public class PictureActivity extends ActionBarActivity {
                 backButton.setBackgroundResource(R.drawable.rounded_button_pressed);
                 finish();
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
+                GlobalClass.didFinishEditing = true;
                 startActivity(i);
                 PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
@@ -527,6 +520,7 @@ public class PictureActivity extends ActionBarActivity {
                                     .show();
                             finish();
                             Intent i = new Intent(getBaseContext(), MainActivity.class);
+                            GlobalClass.didFinishEditing = true;
                             startActivity(i);
                             PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 

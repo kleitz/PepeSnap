@@ -8,4 +8,5 @@ import android.graphics.Bitmap;
 //global class for Bitmap image
 public class GlobalClass {
     static Bitmap img;
+    static boolean didFinishEditing = false;
 }
