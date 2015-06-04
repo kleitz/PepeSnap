@@ -195,20 +195,52 @@ public class MainActivity extends ActionBarActivity {
                 case SELECT_PICTURE:
                     Uri selectedImageUri = data.getData();
                     if (Build.VERSION.SDK_INT < 19) {
-                        selectedImagePath = getPath(selectedImageUri);
-                        Bitmap originalBitmap = BitmapFactory.decodeFile(selectedImagePath);
+                        try {
+                            selectedImagePath = getPath(selectedImageUri);
+                            Bitmap originalBitmap = BitmapFactory.decodeFile(selectedImagePath);
 
-                        //put image rotating shit here
+                            String path = getImagePathForRotation(selectedImageUri);
+                            ExifInterface exif = new ExifInterface(path);
 
-                        Intent i = new Intent(getBaseContext(), PictureActivity.class);
-                        //assigns to global bitmap variable then goes to intent
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(90);
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                        GlobalClass.bitmap = rotatedBitmap;
-                        startActivity(i);
-                        finish();
+                            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+                            System.out.println(orientation);
 
+                            Intent i = new Intent(getBaseContext(), PictureActivity.class);
+
+                            Matrix matrix = new Matrix();
+                            Bitmap rotatedBitmap = null;
+                            switch (orientation) {
+                                case 0:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                case 1:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                case 3:
+                                    matrix.postRotate(180);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                                case 6:
+                                    matrix.postRotate(90);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                                case 8:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                            }
+
+                            //assigns to global bitmap variable then goes to intent
+                            GlobalClass.bitmap = rotatedBitmap;
+                            startActivity(i);
+                            finish();
+                        }
+                        catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
                     else {
                         ParcelFileDescriptor parcelFileDescriptor;
@@ -218,13 +250,39 @@ public class MainActivity extends ActionBarActivity {
                             Bitmap originalBitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                             parcelFileDescriptor.close();
 
-                            ExifInterface exif = new ExifInterface("" + selectedImageUri);
+                            String path = getImagePathForRotation(selectedImageUri);
+
+                            ExifInterface exif = new ExifInterface(path);
                             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
                             System.out.println(orientation);
 
                             Intent i = new Intent(getBaseContext(), PictureActivity.class);
 
-                            GlobalClass.bitmap = originalBitmap;
+                            Matrix matrix = new Matrix();
+                            Bitmap rotatedBitmap = null;
+                            switch (orientation) {
+                                case 0:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                case 1:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                case 3:
+                                    matrix.postRotate(180);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                                case 6:
+                                    matrix.postRotate(90);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                                case 8:
+                                    matrix.postRotate(270);
+                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                                    break;
+                            }
+
+                            //assigns to global bitmap variable then goes to intent
+                            GlobalClass.bitmap = rotatedBitmap;
                             startActivity(i);
                             finish();
 
@@ -262,6 +320,23 @@ public class MainActivity extends ActionBarActivity {
             return cursor.getString(column_index);
         }
         return uri.getPath();
+    }
+
+    public String getImagePathForRotation(Uri uri){
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
     }
 
 }
