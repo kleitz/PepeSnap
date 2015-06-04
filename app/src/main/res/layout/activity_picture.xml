@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:background="#ffffffff"/>
+        android:background="#ff000000"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -110,7 +110,8 @@
         android:textSize="0dp"
         android:layout_alignTop="@+id/increaseButton"
         android:layout_toRightOf="@+id/flipButton"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="20dp"
+        />
 
     <ImageView
         android:layout_width="28dp"

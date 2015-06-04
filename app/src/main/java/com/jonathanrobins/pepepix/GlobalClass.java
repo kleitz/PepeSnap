@@ -7,6 +7,6 @@ import android.graphics.Bitmap;
  */
 //global class for Bitmap image
 public class GlobalClass {
-    static Bitmap img;
+    static Bitmap bitmap;
     static boolean didFinishEditing = false;
 }

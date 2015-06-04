@@ -93,8 +93,9 @@ public class PictureActivity extends ActionBarActivity {
         //receives picture and sets it to imageview
         Intent intent = getIntent();
         picture = (ImageView) findViewById(R.id.picture);
-        Bitmap bitmap = GlobalClass.img;
+        Bitmap bitmap = GlobalClass.bitmap;
         picture.setImageBitmap(bitmap);
+        picture.setAdjustViewBounds(true);
 
         //various views and layouts
         scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
@@ -471,6 +472,7 @@ public class PictureActivity extends ActionBarActivity {
                 public void onAnimationRepeat(Animation animation) {}
                 @Override
                 public void onAnimationEnd(Animation animation) {
+                    backButton.setVisibility(View.VISIBLE);
                     doneButton.setVisibility(View.VISIBLE);
                     saveIcon.setVisibility(View.VISIBLE);}
             });
