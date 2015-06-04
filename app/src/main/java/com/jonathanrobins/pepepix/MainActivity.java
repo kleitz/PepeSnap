@@ -1,19 +1,27 @@
 package com.jonathanrobins.pepepix;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,19 +30,26 @@ import android.widget.Button;
 import android.provider.MediaStore.Audio.Media;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private Button cameraButton;
     private final int REQUEST_IMAGE_CAPTURE = 1;
-    private int cameraID;
+    private final int SELECT_PICTURE = 2;
+    private String selectedImagePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,16 +77,11 @@ public class MainActivity extends ActionBarActivity {
                         cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
                         break;
                     }
-                    case MotionEvent.ACTION_UP:{
-                        cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
+                    case MotionEvent.ACTION_UP: {
+                        buttonLogic();
                         cameraButton.setBackgroundResource(R.drawable.camera_animation);
                         AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
                         animation.start();
-                        buttonLogic();
-                        break;
-                    }
-                    case MotionEvent.ACTION_CANCEL: {
-                        break;
                     }
                 }
                 return true;
@@ -97,21 +107,45 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void buttonLogic() {
-        //create intent and send picture through intent as extra, created as temp file on device
-        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
-        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-        MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
+        openDialog();
     }
+
+    public void openDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Picture Options")
+                .setMessage("Would you like to take a new picture or use an already existing one?")
+                        //gallery click
+                .setPositiveButton("GALLERY", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent,
+                                "Select Picture"), SELECT_PICTURE);
+                    }})
+                        //camera click
+                .setNegativeButton("CAMERA", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
+                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                        MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                //camera
                 case REQUEST_IMAGE_CAPTURE:
                     final File file = getTempFile(this);
                     try {
@@ -164,6 +198,43 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     break;
+                //gallery
+                case SELECT_PICTURE:
+                    System.out.println("HAAAAAAAAAAAAAAAAAAAAAA");
+                    Uri selectedImageUri = data.getData();
+                    if (Build.VERSION.SDK_INT < 19) {
+                        selectedImagePath = getPath(selectedImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+
+                        Intent i = new Intent(getBaseContext(), PictureActivity.class);
+                        //assigns to global bitmap variable then goes to intent
+                        GlobalClass.img = bitmap;
+                        startActivity(i);
+                        finish();
+
+                    }
+                    else {
+                        ParcelFileDescriptor parcelFileDescriptor;
+                        try {
+                            parcelFileDescriptor = getContentResolver().openFileDescriptor(selectedImageUri, "r");
+                            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+                            Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                            parcelFileDescriptor.close();
+
+                            Intent i = new Intent(getBaseContext(), PictureActivity.class);
+                            //assigns to global bitmap variable then goes to intent
+                            GlobalClass.img = bitmap;
+                            startActivity(i);
+                            finish();
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+
             }
         }
     }
@@ -176,4 +247,21 @@ public class MainActivity extends ActionBarActivity {
         }
         return new File(path, "image.tmp");
     }
+
+    public String getPath(Uri uri) {
+        if( uri == null ) {
+            return null;
+        }
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return uri.getPath();
+    }
+
+
 }
