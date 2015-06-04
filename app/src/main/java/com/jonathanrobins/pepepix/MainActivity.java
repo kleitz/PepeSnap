@@ -193,11 +193,12 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 //gallery
                 case SELECT_PICTURE:
-                    System.out.println("HAAAAAAAAAAAAAAAAAAAAAA");
                     Uri selectedImageUri = data.getData();
                     if (Build.VERSION.SDK_INT < 19) {
                         selectedImagePath = getPath(selectedImageUri);
                         Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+
+                        //put image rotating shit here
 
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
                         //assigns to global bitmap variable then goes to intent
@@ -213,6 +214,8 @@ public class MainActivity extends ActionBarActivity {
                             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                             parcelFileDescriptor.close();
+
+                            //put image rotating shit here
 
                             Intent i = new Intent(getBaseContext(), PictureActivity.class);
                             //assigns to global bitmap variable then goes to intent
@@ -254,6 +257,19 @@ public class MainActivity extends ActionBarActivity {
             return cursor.getString(column_index);
         }
         return uri.getPath();
+    }
+
+    public static int getOrientation(Context context, Uri photoUri) {
+    /* it's on the external media. */
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+
+        if (cursor.getCount() != 1) {
+            return -1;
+        }
+
+        cursor.moveToFirst();
+        return cursor.getInt(0);
     }
 
 
