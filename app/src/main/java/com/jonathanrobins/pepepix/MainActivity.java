@@ -81,7 +81,6 @@ public class MainActivity extends ActionBarActivity {
         if(GlobalClass.didFinishEditing == true) {
             mAdView.loadAd(adRequest);
         }
-
         //home button detector
         HomeWatcher mHomeWatcher = new HomeWatcher(this);
         mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
@@ -162,43 +161,15 @@ public class MainActivity extends ActionBarActivity {
                         //get exif data and orientation to determine auto-rotation for picture
                         ExifInterface exif = new ExifInterface("" + file);
                         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                        //rotate picture certain # of degrees depending on orientation then sets new matrix
-                        Matrix matrix = new Matrix();
                         System.out.println(orientation);
-                        switch (orientation) {
-                            case 1:
-                                matrix.postRotate(270);
-                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                            case 3:
-                                matrix.postRotate(180);
-                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                break;
-                            case 6:
-                                matrix.postRotate(90);
-                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                break;
-                            case 8:
-                                matrix.postRotate(270);
-                                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                break;
-                        }
-                        //check for cameraID of front facing camera and flips accordingly
-                        /*Camera.CameraInfo info = new Camera.CameraInfo();
-                        android.hardware.Camera.getCameraInfo(cameraID, info);
-                        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
-                        {
-                            System.out.println("WHY");
-                            float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
-                            Matrix matrixMirrorY = new Matrix();
-                            matrixMirrorY.setValues(mirrorY);
-                            matrix.postConcat(matrixMirrorY);
-                            rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                        }*/
+
+                        //rotate picture certain # of degrees depending on orientation then sets new matrix
+                        rotatedBitmap = rotateBitmap(originalBitmap, orientation);
 
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
+
                         //assigns to global bitmap variable then goes to intent
                         GlobalClass.bitmap = rotatedBitmap;
-
                         startActivity(i);
                         finish();
                     } catch (FileNotFoundException e) {
@@ -221,30 +192,10 @@ public class MainActivity extends ActionBarActivity {
                             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
                             System.out.println(orientation);
 
+                            //rotate picture certain # of degrees depending on orientation then sets new matrix
+                            rotatedBitmap = rotateBitmap(originalBitmap, orientation);
+
                             Intent i = new Intent(getBaseContext(), PictureActivity.class);
-
-                            Matrix matrix = new Matrix();
-                            switch (orientation) {
-                                case 0:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                case 1:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                case 3:
-                                    matrix.postRotate(180);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                                case 6:
-                                    matrix.postRotate(90);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                                case 8:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                            }
-
                             //assigns to global bitmap variable then goes to intent
                             GlobalClass.bitmap = rotatedBitmap;
 
@@ -272,30 +223,10 @@ public class MainActivity extends ActionBarActivity {
                             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
                             System.out.println(orientation);
 
-                            Intent i = new Intent(getBaseContext(), PictureActivity.class);
+                            //rotate picture certain # of degrees depending on orientation then sets new matrix
+                            rotatedBitmap = rotateBitmap(originalBitmap, orientation);
 
-                            Matrix matrix = new Matrix();
-                            rotatedBitmap = null;
-                            switch (orientation) {
-                                case 0:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                case 1:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                case 3:
-                                    matrix.postRotate(180);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                                case 6:
-                                    matrix.postRotate(90);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                                case 8:
-                                    matrix.postRotate(270);
-                                    rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
-                                    break;
-                            }
+                            Intent i = new Intent(getBaseContext(), PictureActivity.class);
                             //assigns to global bitmap variable then goes to intent
                             GlobalClass.bitmap = rotatedBitmap;
                             startActivity(i);
@@ -311,6 +242,34 @@ public class MainActivity extends ActionBarActivity {
 
             }
         }
+    }
+
+    private Bitmap rotateBitmap(Bitmap originalBitmap, int orientation){
+        Bitmap rotatedBitmap = null;
+        Matrix matrix = new Matrix();
+
+        switch (orientation) {
+            case 0:
+                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                break;
+            case 1:
+                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.postRotate(90);
+                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.postRotate(180);
+                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.postRotate(270);
+                rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true);
+                break;
+        }
+
+        return rotatedBitmap;
     }
 
     private File getTempFile(Context context) {
