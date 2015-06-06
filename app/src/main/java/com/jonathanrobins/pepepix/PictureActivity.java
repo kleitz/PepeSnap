@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.FloatMath;
@@ -177,6 +178,7 @@ public class PictureActivity extends ActionBarActivity {
                 GlobalClass.didFinishEditing = true;
                 startActivity(i);
                 PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                GlobalClass.bitmap = null;
             }
         });
 
