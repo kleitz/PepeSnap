@@ -151,7 +151,6 @@ public class MainActivity extends ActionBarActivity {
                         //get exif data and orientation to determine auto-rotation for picture
                         ExifInterface exif = new ExifInterface("" + file);
                         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                        System.out.println(orientation);
 
                         //rotate picture certain # of degrees depending on orientation then sets new matrix
                         bitmap = rotateBitmap(bitmap, orientation);
@@ -180,7 +179,6 @@ public class MainActivity extends ActionBarActivity {
                             ExifInterface exif = new ExifInterface(path);
 
                             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                            System.out.println(orientation);
 
                             //rotate picture certain # of degrees depending on orientation then sets new matrix
                             bitmap = rotateBitmap(bitmap, orientation);
@@ -211,7 +209,6 @@ public class MainActivity extends ActionBarActivity {
 
                             ExifInterface exif = new ExifInterface(path);
                             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-                            System.out.println(orientation);
 
                             //rotate picture certain # of degrees depending on orientation then sets new matrix
                             bitmap = rotateBitmap(bitmap, orientation);

@@ -337,7 +337,6 @@ public class PictureActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             //get tag number and resID to find correct picture for display
-            System.out.println("Tag is: " + (int) v.getTag());
             String stringVar = "pic" + v.getTag();
             int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
             //create image based on resID and set to main RelativeLayout
@@ -392,7 +391,6 @@ public class PictureActivity extends ActionBarActivity {
                             increaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    System.out.println(layoutParams.width);
                                     if (layoutParams.width < width + 1000) {
                                         layoutParams.width = layoutParams.width + 50;
                                         clickedPepe.setLayoutParams(layoutParams);
@@ -403,7 +401,6 @@ public class PictureActivity extends ActionBarActivity {
                             decreaseButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    System.out.println(layoutParams.width);
                                     if (layoutParams.width > 100) {
                                         layoutParams.width = layoutParams.width - 50;
                                         clickedPepe.setLayoutParams(layoutParams);
