@@ -1,4 +1,4 @@
-package com.jonathanrobins.pepepix;
+package com.jonathanrobins.pepesnap;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +21,7 @@ public class SplashScreenActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_splash);
+        setContentView(com.jonathanrobins.pepesnap.R.layout.activity_splash);
 
         Thread background = new Thread() {
             public void run() {
@@ -44,7 +44,7 @@ public class SplashScreenActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(com.jonathanrobins.pepesnap.R.menu.menu_main, menu);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class SplashScreenActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == com.jonathanrobins.pepesnap.R.id.action_settings) {
             return true;
         }
 

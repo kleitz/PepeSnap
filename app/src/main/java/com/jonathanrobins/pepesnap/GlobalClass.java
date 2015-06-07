@@ -1,4 +1,4 @@
-package com.jonathanrobins.pepepix;
+package com.jonathanrobins.pepesnap;
 
 import android.graphics.Bitmap;
 

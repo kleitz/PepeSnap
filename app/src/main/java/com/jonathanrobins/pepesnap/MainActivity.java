@@ -1,4 +1,4 @@
-package com.jonathanrobins.pepepix;
+package com.jonathanrobins.pepesnap;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,8 +17,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -51,11 +49,11 @@ public class MainActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_main);
-        cameraButton = (Button) findViewById(R.id.cameraButton);
+        setContentView(com.jonathanrobins.pepesnap.R.layout.activity_main);
+        cameraButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.cameraButton);
 
         //animation
-        cameraButton.setBackgroundResource(R.drawable.camera_animation);
+        cameraButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.camera_animation);
         AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
         animation.start();
 
@@ -64,12 +62,12 @@ public class MainActivity extends ActionBarActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
+                        cameraButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.camerabutton_pressed);
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
                         buttonLogic();
-                        cameraButton.setBackgroundResource(R.drawable.camera_animation);
+                        cameraButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.camera_animation);
                         AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
                         animation.start();
                     }
@@ -79,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //ad
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = (AdView) findViewById(com.jonathanrobins.pepesnap.R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         if(GlobalClass.didFinishEditing == true) {
             mAdView.loadAd(adRequest);
@@ -89,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity2, menu);
+        getMenuInflater().inflate(com.jonathanrobins.pepesnap.R.menu.menu_activity2, menu);
         return true;
     }
 
@@ -101,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == com.jonathanrobins.pepesnap.R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);

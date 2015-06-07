@@ -1,4 +1,4 @@
-package com.jonathanrobins.pepepix;
+package com.jonathanrobins.pepesnap;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -67,15 +67,15 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_picture);
+        setContentView(com.jonathanrobins.pepesnap.R.layout.activity_picture);
         //intializes buttons and sets colors
-        backButton = (Button) findViewById(R.id.backButton);
-        pepeButton = (Button) findViewById(R.id.pepeButton);
-        decreaseButton = (Button) findViewById(R.id.decreaseButton);
-        increaseButton = (Button) findViewById(R.id.increaseButton);
-        deleteButton = (Button) findViewById(R.id.deleteButton);
-        flipButton = (Button) findViewById(R.id.flipButton);
-        doneButton = (Button) findViewById(R.id.doneButton);
+        backButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.backButton);
+        pepeButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.pepeButton);
+        decreaseButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.decreaseButton);
+        increaseButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.increaseButton);
+        deleteButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.deleteButton);
+        flipButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.flipButton);
+        doneButton = (Button) findViewById(com.jonathanrobins.pepesnap.R.id.doneButton);
         backButton.setTextColor(Color.parseColor("white"));
         increaseButton.setTextColor(Color.parseColor("white"));
         decreaseButton.setTextColor(Color.parseColor("white"));
@@ -86,8 +86,8 @@ public class PictureActivity extends ActionBarActivity {
         decreaseButton.setVisibility(View.INVISIBLE);
         flipButton.setVisibility(View.INVISIBLE);
         //dank pepes and on-click setting
-        int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3, R.id.pic4, R.id.pic5, R.id.pic6, R.id.pic7, R.id.pic8, R.id.pic9, R.id.pic10,
-                       R.id.pic11, R.id.pic12, R.id.pic13, R.id.pic14, R.id.pic15, R.id.pic16, R.id.pic17, R.id.pic18, R.id.pic19};
+        int[] pepes = {com.jonathanrobins.pepesnap.R.id.pic0, com.jonathanrobins.pepesnap.R.id.pic1, com.jonathanrobins.pepesnap.R.id.pic2, com.jonathanrobins.pepesnap.R.id.pic3, com.jonathanrobins.pepesnap.R.id.pic4, com.jonathanrobins.pepesnap.R.id.pic5, com.jonathanrobins.pepesnap.R.id.pic6, com.jonathanrobins.pepesnap.R.id.pic7, com.jonathanrobins.pepesnap.R.id.pic8, com.jonathanrobins.pepesnap.R.id.pic9, com.jonathanrobins.pepesnap.R.id.pic10,
+                       com.jonathanrobins.pepesnap.R.id.pic11, com.jonathanrobins.pepesnap.R.id.pic12, com.jonathanrobins.pepesnap.R.id.pic13, com.jonathanrobins.pepesnap.R.id.pic14, com.jonathanrobins.pepesnap.R.id.pic15, com.jonathanrobins.pepesnap.R.id.pic16, com.jonathanrobins.pepesnap.R.id.pic17, com.jonathanrobins.pepesnap.R.id.pic18, com.jonathanrobins.pepesnap.R.id.pic19};
         for (int i = 0; i < pepes.length; i++) {
             ImageView pepe = (ImageView) findViewById(pepes[i]);
             pepe.setTag(i);
@@ -95,19 +95,19 @@ public class PictureActivity extends ActionBarActivity {
         }
         //receives picture and sets it to imageview
         Intent intent = getIntent();
-        picture = (ImageView) findViewById(R.id.picture);
+        picture = (ImageView) findViewById(com.jonathanrobins.pepesnap.R.id.picture);
         Bitmap bitmap = GlobalClass.bitmap;
         picture.setImageBitmap(bitmap);
         picture.setAdjustViewBounds(true);
 
         //various views and layouts
-        scrollView = (ScrollView) findViewById(R.id.pictureScrollView);
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
-        mainRelativeLayout = (ViewGroup) findViewById(R.id.mainRelativeLayout);
-        flipIcon = (ImageView) findViewById(R.id.flip);
-        saveIcon = (ImageView) findViewById(R.id.save);
-        tapIndicator = (ImageView) findViewById(R.id.tapIndicator);
-        watermark = (ImageView) findViewById(R.id.watermark);
+        scrollView = (ScrollView) findViewById(com.jonathanrobins.pepesnap.R.id.pictureScrollView);
+        relativeLayout = (RelativeLayout) findViewById(com.jonathanrobins.pepesnap.R.id.relativeLayout);
+        mainRelativeLayout = (ViewGroup) findViewById(com.jonathanrobins.pepesnap.R.id.mainRelativeLayout);
+        flipIcon = (ImageView) findViewById(com.jonathanrobins.pepesnap.R.id.flip);
+        saveIcon = (ImageView) findViewById(com.jonathanrobins.pepesnap.R.id.save);
+        tapIndicator = (ImageView) findViewById(com.jonathanrobins.pepesnap.R.id.tapIndicator);
+        watermark = (ImageView) findViewById(com.jonathanrobins.pepesnap.R.id.watermark);
         flipIcon.setVisibility(View.INVISIBLE);
         tapIndicator.setVisibility(View.INVISIBLE);
         watermark.setVisibility(View.INVISIBLE);
@@ -125,7 +125,7 @@ public class PictureActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_picture, menu);
+        getMenuInflater().inflate(com.jonathanrobins.pepesnap.R.menu.menu_picture, menu);
         return true;
     }
 
@@ -137,7 +137,7 @@ public class PictureActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == com.jonathanrobins.pepesnap.R.id.action_settings) {
             return true;
         }
 
@@ -163,7 +163,7 @@ public class PictureActivity extends ActionBarActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backButton.setBackgroundResource(R.drawable.rounded_button_pressed);
+                backButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.rounded_button_pressed);
                 finish();
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
                 GlobalClass.didFinishEditing = true;
@@ -181,7 +181,7 @@ public class PictureActivity extends ActionBarActivity {
                 //not clicked yet
                 if (clicked == false) {
                     if (lastClickedPepe != null) {
-                        lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                        lastClickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.no_border);
                     }
                     deleteButton.setVisibility(View.INVISIBLE);
                     backButton.setVisibility(View.INVISIBLE);
@@ -191,7 +191,7 @@ public class PictureActivity extends ActionBarActivity {
                     doneButton.setVisibility(View.INVISIBLE);
                     flipIcon.setVisibility(View.INVISIBLE);
                     saveIcon.setVisibility(View.INVISIBLE);
-                    pepeButton.setBackgroundResource(R.drawable.sadpepeicon);
+                    pepeButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.sadpepeicon);
                     clicked = true;
                     //moves scrollview in view
                    /*
@@ -225,10 +225,10 @@ public class PictureActivity extends ActionBarActivity {
                 //clicked already
                 else {
                     if (lastClickedPepe != null) {
-                        lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                        lastClickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.no_border);
                     }
                     tapIndicator.setVisibility(View.INVISIBLE);
-                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+                    pepeButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.pepepicturesicon);
                     clicked = false;
                     //moves scrollview out of view
                     final Animation a = new Animation() {
@@ -269,7 +269,7 @@ public class PictureActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (lastClickedPepe != null) {
-                    lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                    lastClickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.no_border);
                 }
                 deleteButton.setVisibility(View.INVISIBLE);
                 increaseButton.setVisibility(View.INVISIBLE);
@@ -277,7 +277,7 @@ public class PictureActivity extends ActionBarActivity {
                 flipButton.setVisibility(View.INVISIBLE);
                 flipIcon.setVisibility(View.INVISIBLE);
                 if (clicked == true) {
-                    pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+                    pepeButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.pepepicturesicon);
                     tapIndicator.setVisibility(View.INVISIBLE);
                     clicked = false;
                     //moves scrollview out of view
@@ -325,7 +325,7 @@ public class PictureActivity extends ActionBarActivity {
                 flipIcon.setVisibility(View.INVISIBLE);
                 saveIcon.setVisibility(View.INVISIBLE);
                 if (lastClickedPepe != null) {
-                    lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                    lastClickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.no_border);
                 }
                 //calls dialog window and save logic
                 openDialog();
@@ -366,10 +366,10 @@ public class PictureActivity extends ActionBarActivity {
 
                             //sets methods for zoom buttons when a certain pepe is touched
                             if (lastClickedPepe != null) {
-                                lastClickedPepe.setBackgroundResource(R.drawable.no_border);
+                                lastClickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.no_border);
                             }
                             lastClickedPepe = clickedPepe;
-                            clickedPepe.setBackgroundResource(R.drawable.border);
+                            clickedPepe.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.border);
                             deleteButton.setVisibility(View.VISIBLE);
                             increaseButton.setVisibility(View.VISIBLE);
                             decreaseButton.setVisibility(View.VISIBLE);
@@ -451,7 +451,7 @@ public class PictureActivity extends ActionBarActivity {
             doneButton.bringToFront();
             pepeButton.bringToFront();
             //move other picture_activity stuff away
-            pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
+            pepeButton.setBackgroundResource(com.jonathanrobins.pepesnap.R.drawable.pepepicturesicon);
             tapIndicator.setVisibility(View.INVISIBLE);
             clicked = false;
             //moves scrollview out of view
