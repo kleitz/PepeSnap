@@ -10,10 +10,8 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.FloatMath;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,6 +51,8 @@ public class PictureActivity extends ActionBarActivity {
     private RelativeLayout relativeLayout;
     private ViewGroup mainRelativeLayout;
     ImageView lastClickedPepe = null;
+    private int originalX;
+    private int originalY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,8 +366,15 @@ public class PictureActivity extends ActionBarActivity {
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    final int X = (int) event.getRawX();
+                    final int Y = (int) event.getRawY();
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
+
+                            RelativeLayout.LayoutParams oldLayoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
+                            originalX = X - oldLayoutParams.leftMargin;
+                            originalY = Y - oldLayoutParams.topMargin;
+
                             //sets methods for zoom buttons when a certain pepe is touched
                             if (lastClickedPepe != null) {
                                 lastClickedPepe.setBackgroundResource(R.drawable.no_border);
@@ -431,21 +438,12 @@ public class PictureActivity extends ActionBarActivity {
                         case MotionEvent.ACTION_MOVE:
                             //for dragging and moving pepes
                             if (event.getPointerCount() == 1) {
-                                int x = (int) event.getRawX();
-                                int y = (int) event.getRawY();
-                                layoutParams.leftMargin = x - 400;
-                                layoutParams.rightMargin = -400;
-                                layoutParams.topMargin = y - 400;
-                                layoutParams.bottomMargin = -400;
-                                clickedPepe.setLayoutParams(layoutParams);
-                                break;
-                            }
-                            if (event.getPointerCount() == 2) {
-                                float x1 = event.getX(0);
-                                float y1 = event.getY(0);
-                                float x2 = event.getX(1);
-                                float y2 = event.getY(1);
-                                float distance = FloatMath.sqrt((x1 * x2) + (y1 * y2));
+                                RelativeLayout.LayoutParams newLayoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
+                                newLayoutParams.leftMargin = X - originalX;
+                                newLayoutParams.topMargin = Y - originalY;
+                                newLayoutParams.rightMargin = -400;
+                                newLayoutParams.bottomMargin = -400;
+                                clickedPepe.setLayoutParams(newLayoutParams);
                                 break;
                             }
                         default:
