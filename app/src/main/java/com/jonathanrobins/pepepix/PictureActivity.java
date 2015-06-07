@@ -43,6 +43,7 @@ public class PictureActivity extends ActionBarActivity {
     private ImageView picture;
     private ImageView flipIcon;
     private ImageView saveIcon;
+    private ImageView watermark;
     private ImageView tapIndicator;
     private boolean clicked = false;
     private int width;
@@ -106,8 +107,10 @@ public class PictureActivity extends ActionBarActivity {
         flipIcon = (ImageView) findViewById(R.id.flip);
         saveIcon = (ImageView) findViewById(R.id.save);
         tapIndicator = (ImageView) findViewById(R.id.tapIndicator);
+        watermark = (ImageView) findViewById(R.id.watermark);
         flipIcon.setVisibility(View.INVISIBLE);
         tapIndicator.setVisibility(View.INVISIBLE);
+        watermark.setVisibility(View.INVISIBLE);
 
         //width and height of screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -490,6 +493,7 @@ public class PictureActivity extends ActionBarActivity {
                 .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //screenshots current screen with added pepes
+                        watermark.setVisibility(View.VISIBLE);
                         View v = getWindow().getDecorView().getRootView();
                         v.setDrawingCacheEnabled(true);
                         Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());

@@ -358,4 +358,15 @@
                 android:src="@drawable/pic21" />
         </RelativeLayout>
     </ScrollView>
+
+    <ImageView
+        android:layout_width="102.85dp"
+        android:layout_height="16.5dp"
+        android:id="@+id/watermark"
+        android:src="@drawable/watermark"
+        android:alpha=".20"
+        android:layout_below="@+id/flip"
+        android:layout_alignLeft="@+id/deleteButton"
+        android:layout_alignStart="@+id/deleteButton" />
+
 </RelativeLayout>
