@@ -84,19 +84,6 @@ public class MainActivity extends ActionBarActivity {
         if(GlobalClass.didFinishEditing == true) {
             mAdView.loadAd(adRequest);
         }
-        //home button detector
-        HomeWatcher mHomeWatcher = new HomeWatcher(this);
-        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-
-            @Override
-            public void onHomeLongPressed() {
-            }
-        });
-        mHomeWatcher.startWatch();
     }
 
     @Override

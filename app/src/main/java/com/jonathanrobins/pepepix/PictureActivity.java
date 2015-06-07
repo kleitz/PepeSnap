@@ -117,19 +117,6 @@ public class PictureActivity extends ActionBarActivity {
         height = size.y;
         //initializes on-click methods for various buttons
         miscButtonLogic();
-
-        //home button detector
-        HomeWatcher mHomeWatcher = new HomeWatcher(this);
-        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-            @Override
-            public void onHomeLongPressed() {
-            }
-        });
-        mHomeWatcher.startWatch();
     }
 
     @Override
