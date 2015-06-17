@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jonathanrobins.pepesnap" >
+
+    package="com.jonathanrobins.pepe_snap" >
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
@@ -19,7 +20,7 @@
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.jonathanrobins.pepe_snap.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -29,12 +30,12 @@
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.jonathanrobins.pepe_snap.MainActivity"
             android:label="@string/title_activity_activity2"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".PictureActivity"
+            android:name="com.jonathanrobins.pepe_snap.PictureActivity"
             android:label="@string/title_string"
             android:screenOrientation="portrait">
         </activity>
