@@ -1,9 +1,10 @@
-PEPESNAP
+**PEPESNAP**
+=======
 
 Android app for photo taking, editing, and applying dank memes to pictures
 
-UPDATE:
-
+**UPDATE:**
+-----------
 1.1
 
 -Added more Pepes
