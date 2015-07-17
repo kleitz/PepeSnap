@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import java.io.File;
@@ -35,9 +37,12 @@ public class MainActivity extends ActionBarActivity {
 
     private Button cameraButton;
     private Button galleryButton;
+    private ImageView mainImage;
+    private Button secretButton;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private final int SELECT_PICTURE = 2;
     private String selectedImagePath;
+    private int secretCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         cameraButton = (Button) findViewById(R.id.cameraButton);
         galleryButton = (Button) findViewById(R.id.galleryButton);
+        mainImage = (ImageView) findViewById(R.id.mainImage);
+        secretButton = (Button) findViewById(R.id.secretButton);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         cameraButton.setTypeface(typeface);
@@ -76,6 +83,17 @@ public class MainActivity extends ActionBarActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+            }
+        });
+
+        secretButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                secretCount++;
+                if(secretCount == 10)
+                {
+                    mainImage.setBackgroundResource(R.drawable.mainscreenpicture2);
+                }
             }
         });
 

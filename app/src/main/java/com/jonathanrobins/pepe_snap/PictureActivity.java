@@ -479,8 +479,7 @@ public class PictureActivity extends ActionBarActivity {
     public void saveDialog() {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle("All Finished?")
-                .setMessage("Would you like to save this picture?")
+                .setMessage("Would you like to save this pepe?")
                         //yes
                 .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -547,8 +546,7 @@ public class PictureActivity extends ActionBarActivity {
     public void backDialog() {
         new AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle("Would you like to leave your Pepe?")
-                .setMessage("Your pepe won't be saved.")
+                .setMessage("Are you sure you want to abandon your dank Pepe?")
                         //yes
                 .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
