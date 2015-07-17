@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import java.io.IOException;
 public class MainActivity extends ActionBarActivity {
 
     private Button cameraButton;
+    private Button galleryButton;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private final int SELECT_PICTURE = 2;
     private String selectedImagePath;
@@ -51,28 +53,29 @@ public class MainActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_main);
         cameraButton = (Button) findViewById(R.id.cameraButton);
+        galleryButton = (Button) findViewById(R.id.galleryButton);
 
-        //animation
-        cameraButton.setBackgroundResource(R.drawable.camera_animation);
-        AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
-        animation.start();
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        cameraButton.setTypeface(typeface);
+        galleryButton.setTypeface(typeface);
 
-        cameraButton.setOnTouchListener(new View.OnTouchListener() {
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        cameraButton.setBackgroundResource(R.drawable.camerabutton_pressed);
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP: {
-                        buttonLogic();
-                        cameraButton.setBackgroundResource(R.drawable.camera_animation);
-                        AnimationDrawable animation = (AnimationDrawable) cameraButton.getBackground();
-                        animation.start();
-                    }
-                }
-                return true;
+            public void onClick(View v) {
+                final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
             }
         });
 
@@ -104,37 +107,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void buttonLogic() {
-        openDialog();
-    }
-
-    public void openDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Picture Options")
-                .setMessage("Would you like to take a new picture or use an already existing one?")
-                        //gallery click
-                .setPositiveButton("GALLERY", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-                    }})
-                        //camera click
-                .setNegativeButton("CAMERA", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                        MainActivity.this.overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {

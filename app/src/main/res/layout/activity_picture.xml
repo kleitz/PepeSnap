@@ -374,6 +374,22 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="14dp"
                 android:src="@drawable/pic23" />
+            <ImageView
+                android:id="@+id/pic24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pic22"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/pic23" />
+            <ImageView
+                android:id="@+id/pic25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pic22"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/pic23" />
         </RelativeLayout>
     </ScrollView>
 

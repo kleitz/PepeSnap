@@ -87,7 +87,8 @@ public class PictureActivity extends ActionBarActivity {
         flipButton.setVisibility(View.INVISIBLE);
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3, R.id.pic4, R.id.pic5, R.id.pic6, R.id.pic7, R.id.pic8,R.id.pic9, R.id.pic10,R.id.pic11,
-                       R.id.pic12, R.id.pic13, R.id.pic14, R.id.pic15, R.id.pic16, R.id.pic17, R.id.pic18, R.id.pic19, R.id.pic20, R.id.pic21, R.id.pic22, R.id.pic23};
+                       R.id.pic12, R.id.pic13, R.id.pic14, R.id.pic15, R.id.pic16, R.id.pic17, R.id.pic18, R.id.pic19, R.id.pic20, R.id.pic21, R.id.pic22,
+                       R.id.pic23,  R.id.pic24,  R.id.pic25};
         for (int i = 0; i < pepes.length; i++) {
             ImageView pepe = (ImageView) findViewById(pepes[i]);
             pepe.setTag(i);
