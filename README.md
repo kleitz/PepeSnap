@@ -10,6 +10,9 @@ Android app for photo taking, editing, and applying dank memes to pictures
 1.2
 
 -Added more Pepes
+
 -Changed button layout for better useability
+
 -Misc bug fixes
+
 -Sooper secret easter egg~
