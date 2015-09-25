@@ -68,6 +68,7 @@ public class PictureActivity extends ActionBarActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_picture);
+
         //intializes buttons and sets colors
         backButton = (Button) findViewById(R.id.backButton);
         pepeButton = (Button) findViewById(R.id.pepeButton);
@@ -80,11 +81,13 @@ public class PictureActivity extends ActionBarActivity {
         increaseButton.setTextColor(Color.parseColor("white"));
         decreaseButton.setTextColor(Color.parseColor("white"));
         deleteButton.setTextColor(Color.parseColor("red"));
+
         //set visibility of buttons
         deleteButton.setVisibility(View.INVISIBLE);
         increaseButton.setVisibility(View.INVISIBLE);
         decreaseButton.setVisibility(View.INVISIBLE);
         flipButton.setVisibility(View.INVISIBLE);
+
         //dank pepes and on-click setting
         int[] pepes = {R.id.pic0, R.id.pic1, R.id.pic2, R.id.pic3, R.id.pic4, R.id.pic5, R.id.pic6, R.id.pic7, R.id.pic8,R.id.pic9, R.id.pic10,R.id.pic11,
                        R.id.pic12, R.id.pic13, R.id.pic14, R.id.pic15, R.id.pic16, R.id.pic17, R.id.pic18, R.id.pic19, R.id.pic20, R.id.pic21, R.id.pic22,
@@ -94,10 +97,11 @@ public class PictureActivity extends ActionBarActivity {
             pepe.setTag(i);
             pepe.setOnClickListener(pictureMovement);
         }
+
         //receives picture and sets it to imageview
         Intent intent = getIntent();
         picture = (ImageView) findViewById(R.id.picture);
-        Bitmap bitmap = GlobalClass.bitmap;
+        Bitmap bitmap = GlobalContainer.bitmap;
         picture.setImageBitmap(bitmap);
         picture.setAdjustViewBounds(true);
 
@@ -151,7 +155,7 @@ public class PictureActivity extends ActionBarActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             Intent i = new Intent(getBaseContext(), MainActivity.class);
-            GlobalClass.didFinishEditing = true;
+            GlobalContainer.didFinishEditing = true;
             startActivity(i);
             this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             return true;
@@ -225,6 +229,7 @@ public class PictureActivity extends ActionBarActivity {
                     tapIndicator.setVisibility(View.INVISIBLE);
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     clicked = false;
+
                     //moves scrollview out of view
                     final Animation a = new Animation() {
                         @Override
@@ -275,6 +280,7 @@ public class PictureActivity extends ActionBarActivity {
                     pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
                     tapIndicator.setVisibility(View.INVISIBLE);
                     clicked = false;
+
                     //moves scrollview out of view
                     Animation a = new Animation() {
                         @Override
@@ -334,9 +340,11 @@ public class PictureActivity extends ActionBarActivity {
             //get tag number and resID to find correct picture for display
             String stringVar = "pic" + v.getTag();
             int resID = getResources().getIdentifier(stringVar, "drawable", PictureActivity.this.getPackageName());
+
             //create image based on resID and set to main RelativeLayout
             final ImageView clickedPepe = new ImageView(PictureActivity.this);
             clickedPepe.setImageResource(resID);
+
             //sets image to main view and sets margins for where to appear
             mainRelativeLayout.addView(clickedPepe);
             final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) clickedPepe.getLayoutParams();
@@ -346,6 +354,7 @@ public class PictureActivity extends ActionBarActivity {
             clickedPepe.setLayoutParams(layoutParams);
             clickedPepe.setMaxWidth(3000);
             clickedPepe.setAdjustViewBounds(true);
+
             //sets onTouch listeners for dragging/zooming
             clickedPepe.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -445,11 +454,14 @@ public class PictureActivity extends ActionBarActivity {
             flipButton.bringToFront();
             doneButton.bringToFront();
             pepeButton.bringToFront();
+
             //move other picture_activity stuff away
+
             pepeButton.setBackgroundResource(R.drawable.pepepicturesicon);
             tapIndicator.setVisibility(View.INVISIBLE);
             clicked = false;
             //moves scrollview out of view
+
             Animation a = new Animation() {
                 @Override
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
@@ -519,7 +531,7 @@ public class PictureActivity extends ActionBarActivity {
                                     .show();
                             finish();
                             Intent i = new Intent(getBaseContext(), MainActivity.class);
-                            GlobalClass.didFinishEditing = true;
+                            GlobalContainer.didFinishEditing = true;
                             startActivity(i);
                             PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
@@ -553,10 +565,10 @@ public class PictureActivity extends ActionBarActivity {
                         //goes back
                         finish();
                         Intent i = new Intent(getBaseContext(), MainActivity.class);
-                        GlobalClass.didFinishEditing = true;
+                        GlobalContainer.didFinishEditing = true;
                         startActivity(i);
                         PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                        GlobalClass.bitmap = null;
+                        GlobalContainer.bitmap = null;
                     }
                 })
                         //no

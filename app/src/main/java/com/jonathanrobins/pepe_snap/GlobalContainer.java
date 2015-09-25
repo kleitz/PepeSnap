@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
  * Created by Jonathan on 5/23/2015.
  */
 //global class for Bitmap image
-public class GlobalClass {
+public class GlobalContainer {
 
-    protected GlobalClass(int i){
+    protected GlobalContainer(int i){
 
     }
     static Bitmap bitmap;
