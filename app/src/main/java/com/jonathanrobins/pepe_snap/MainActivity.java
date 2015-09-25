@@ -1,15 +1,12 @@
 package com.jonathanrobins.pepe_snap;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -20,7 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -100,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
         //ad
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        if(GlobalClass.didFinishEditing == true) {
+        if(GlobalContainer.didFinishEditing == true) {
             mAdView.loadAd(adRequest);
         }
     }
@@ -146,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
                         Intent i = new Intent(getBaseContext(), PictureActivity.class);
 
                         //assigns to global bitmap variable then goes to intent
-                        GlobalClass.bitmap = bitmap;
+                        GlobalContainer.bitmap = bitmap;
                         startActivity(i);
                         finish();
                     } catch (FileNotFoundException e) {
@@ -155,6 +151,7 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     break;
+
                 //gallery
                 case SELECT_PICTURE:
                     Uri selectedImageUri = data.getData();
@@ -173,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
 
                             Intent i = new Intent(getBaseContext(), PictureActivity.class);
                             //assigns to global bitmap variable then goes to intent
-                            GlobalClass.bitmap = bitmap;
+                            GlobalContainer.bitmap = bitmap;
 
                             startActivity(i);
                             finish();
@@ -203,7 +200,7 @@ public class MainActivity extends ActionBarActivity {
 
                             Intent i = new Intent(getBaseContext(), PictureActivity.class);
                             //assigns to global bitmap variable then goes to intent
-                            GlobalClass.bitmap = bitmap;
+                            GlobalContainer.bitmap = bitmap;
                             startActivity(i);
                             finish();
 
