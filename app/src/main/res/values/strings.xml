@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">PepeSnap</string>
-    <string name="title_string">Pepe Snap</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_activity2">Activity2</string>
-    <string name="title_activity_picture">PictureActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="banner_ad_unit_id">ca-app-pub-2432130461452825/3425583595</string>
-</resources>

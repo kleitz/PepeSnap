@@ -12,5 +12,4 @@ public class GlobalContainer {
 
     }
     static Bitmap bitmap;
-    static boolean didFinishEditing = false;
 }

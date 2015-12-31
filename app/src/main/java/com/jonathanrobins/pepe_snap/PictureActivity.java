@@ -155,7 +155,6 @@ public class PictureActivity extends ActionBarActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             Intent i = new Intent(getBaseContext(), MainActivity.class);
-            GlobalContainer.didFinishEditing = true;
             startActivity(i);
             this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             return true;
@@ -531,7 +530,6 @@ public class PictureActivity extends ActionBarActivity {
                                     .show();
                             finish();
                             Intent i = new Intent(getBaseContext(), MainActivity.class);
-                            GlobalContainer.didFinishEditing = true;
                             startActivity(i);
                             PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
@@ -565,7 +563,6 @@ public class PictureActivity extends ActionBarActivity {
                         //goes back
                         finish();
                         Intent i = new Intent(getBaseContext(), MainActivity.class);
-                        GlobalContainer.didFinishEditing = true;
                         startActivity(i);
                         PictureActivity.this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                         GlobalContainer.bitmap = null;
