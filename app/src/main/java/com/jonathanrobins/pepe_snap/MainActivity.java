@@ -28,6 +28,8 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.microedition.khronos.opengles.GL10;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -130,6 +132,12 @@ public class MainActivity extends ActionBarActivity {
                     try {
                         //retrieve bitmap for picture taken
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                        //check gl texture size
+                        if (bitmap.getHeight() > GL10.GL_MAX_TEXTURE_SIZE) {
+                            // this is the case when the bitmap fails to load
+                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 2000, 1600, false);
+                            bitmap = scaledBitmap;
+                        }
                         //get exif data and orientation to determine auto-rotation for picture
                         ExifInterface exif = new ExifInterface("" + file);
                         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
@@ -157,6 +165,12 @@ public class MainActivity extends ActionBarActivity {
                         try {
                             selectedImagePath = getPath(selectedImageUri);
                             bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                            //check gl texture size
+                            if (bitmap.getHeight() > GL10.GL_MAX_TEXTURE_SIZE) {
+                                // this is the case when the bitmap fails to load
+                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 2000, 1600, false);
+                                bitmap = scaledBitmap;
+                            }
 
                             String path = getImagePathForRotation(selectedImageUri);
                             ExifInterface exif = new ExifInterface(path);
@@ -187,6 +201,13 @@ public class MainActivity extends ActionBarActivity {
                             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
                             bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                             parcelFileDescriptor.close();
+
+                            //check gl texture size
+                            if (bitmap.getHeight() > GL10.GL_MAX_TEXTURE_SIZE) {
+                                // this is the case when the bitmap fails to load
+                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 2000, 1600, false);
+                                bitmap = scaledBitmap;
+                            }
 
                             String path = getImagePathForRotation(selectedImageUri);
 
